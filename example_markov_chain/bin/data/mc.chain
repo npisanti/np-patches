@@ -1,0 +1,24 @@
+# first node of the chain, 2 is kick
+(first)
+2
+
+(messages)
+#zap--->pitch   noise   click-->pitch
+0.0     0.0
+0.0     0.0
+1.0     0.0
+-       -       1.0     -    
+-       -       -       1.0     -
+0.3     24.     -       1.0     24
+
+(chances)
+#empty  empty   kick    noise   click   ghost 
+-		1.0 	-       -       -       -
+0.2		-		0.4		0.2	    0.2     -
+-  		1.0		- 		-	    -       0.2
+-  		1.0		-		-	    -       0.2
+-  		1.0		-		-	    -       0.2
+-  		1.0		-		-       1.0     -	
+
+# the (first), (messages), and (chances) lines are needed for correct parsing
+

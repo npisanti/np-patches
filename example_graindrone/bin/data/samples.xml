@@ -1,0 +1,23 @@
+<group>
+	<sampledata_n0>
+		<load>0</load>
+		<sample>tubophone.wav</sample>
+		<path>/home/nick/data/live/tubophone.wav</path>
+	</sampledata_n0>
+	<sampledata_n1>
+		<load>0</load>
+		<sample>coffee_ed.wav</sample>
+		<path>/home/nick/data/live/coffee_ed.wav</path>
+	</sampledata_n1>
+	<sampledata_n2>
+		<load>0</load>
+		<sample>sawblade.wav</sample>
+		<path>/home/nick/data/live/sawblade.wav</path>
+	</sampledata_n2>
+	<sampledata_n3>
+		<load>0</load>
+		<sample>no path</sample>
+		<path>no path</path>
+	</sampledata_n3>
+<group/>
+</group>

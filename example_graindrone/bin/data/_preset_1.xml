@@ -1,0 +1,35 @@
+<group>
+	<graindrone>
+		<gain>12</gain>
+		<select_sample>1</select_sample>
+		<pitch>-12</pitch>
+		<p_fine>0</p_fine>
+		<p_jitter>0.05</p_jitter>
+		<position>0.397959</position>
+		<pos_jitter>0.02</pos_jitter>
+		<length__ms_>250</length__ms_>
+		<density>0.9</density>
+		<distance_jit>20</distance_jit>
+		<dry_control>0</dry_control>
+		<resonators_pitch>38</resonators_pitch>
+		<reson__LR_spread>0.05</reson__LR_spread>
+		<r_1_control>0</r_1_control>
+		<r1_offset>-12</r1_offset>
+		<r1_offset_fine>0</r1_offset_fine>
+		<r_2_control>0</r_2_control>
+		<r2_offset>-5</r2_offset>
+		<r2_offset_fine>0</r2_offset_fine>
+		<r_3_control>0</r_3_control>
+		<r3_offset>0</r3_offset>
+		<r3_offset_fine>0</r3_offset_fine>
+		<r_4_control>0</r_4_control>
+		<r4_offset>7</r4_offset>
+		<r4_offset_fine>0</r4_offset_fine>
+		<resonators_fb>0.5</resonators_fb>
+		<resonators_damp>0.928571</resonators_damp>
+		<lfo_mod>0</lfo_mod>
+		<lfo_speed>3.5</lfo_speed>
+	</graindrone>
+	<axis2_angle_to_pos>0.29</axis2_angle_to_pos>
+<group/>
+</group>

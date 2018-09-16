@@ -1,0 +1,37 @@
+<?xml version="1.0"?>
+<panel>
+	<tracker_seq>
+		<division>16</division>
+		<steps>16</steps>
+		<step_start>0</step_start>
+		<autogenerate>1</autogenerate>
+		<ag_counter>1</ag_counter>
+		<regenerate>0</regenerate>
+	</tracker_seq>
+	<perc_0>
+		<gain>-12</gain>
+		<pitch>48</pitch>
+		<pitch_env>48</pitch_env>
+		<p_env_attack>0</p_env_attack>
+		<p_env_release>50</p_env_release>
+		<p_env_dyn_amt>0.5</p_env_dyn_amt>
+		<feedback>0</feedback>
+		<env_to_fb>0</env_to_fb>
+		<attack>3</attack>
+		<hold>40</hold>
+		<release>20</release>
+	</perc_0>
+	<perc_1>
+		<gain>-12</gain>
+		<pitch>72</pitch>
+		<pitch_env>48</pitch_env>
+		<p_env_attack>0</p_env_attack>
+		<p_env_release>50</p_env_release>
+		<p_env_dyn_amt>0.5</p_env_dyn_amt>
+		<feedback>0</feedback>
+		<env_to_fb>0</env_to_fb>
+		<attack>3</attack>
+		<hold>40</hold>
+		<release>20</release>
+	</perc_1>
+</panel>
