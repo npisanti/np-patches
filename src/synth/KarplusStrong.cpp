@@ -22,7 +22,7 @@ void np::synth::KarplusStrong::Voice::patch() {
     addModuleOutput("signal", comb ); 
 
     fbBoundaries.enableBoundaries(0.0f, 1.0f);
-    fbBoundaries >> comb.in_fb();
+    fbBoundaries >> comb.in_feedback();
     pluckEnv.enableDBTriggering(-24.0f, 0.0f);
     //patching
     gateEnv.set(0.0f, 0.0f, 1.0f, 20.0f);
@@ -102,10 +102,11 @@ pdsp::Patchable & np::synth::KarplusStrong::out_voice( int voice ) {
     return voices[voice].out("signal");
 }
     
-pdsp::Patchable & np::synth::KarplusStrong::out_L() {
+pdsp::Patchable & np::synth::KarplusStrong::ch( size_t index ) {
+    pdsp::wrapChannelIndex( index );
+    switch( index ){
+        case 0: return ampL; break;
+        case 1: return ampR; break;
+    }
     return ampL;
-}
-
-pdsp::Patchable & np::synth::KarplusStrong::out_R() {
-    return ampR;
 }

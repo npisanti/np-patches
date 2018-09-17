@@ -42,9 +42,10 @@ public: // ---------------------- public API ----------------------------------
     
     pdsp::Patchable & in_trig( int voice );
     pdsp::Patchable & in_pitch( int voice );
-    pdsp::Patchable & out_L();
-    pdsp::Patchable & out_R();
+
     pdsp::Patchable & out_voice( int voice );
+
+    pdsp::Patchable & ch( size_t index );
     
     size_t size();
 

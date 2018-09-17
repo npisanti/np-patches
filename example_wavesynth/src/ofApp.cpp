@@ -19,7 +19,6 @@ void ofApp::setup(){
     wavesynth.wavetable.addAdditiveWave ( { 1.0f, 1.0f, 1.0f, 1.0f } ); 
     wavesynth.wavetable.addAdditiveWave ({ 1.0f, 0.0f, -1.0f, 0.5f, 0.5f, 1.0f, -1.0f, 0.5f, 0.5f, 1.0f, -1.0f, 0.5f, 0.5f, 1.0f, -1.0f, 0.5f }, true ); 
       
-
     keyboard.setPolyMode( 8 );
     wavesynth.setup( keyboard.getVoicesNumber() );
 
@@ -30,8 +29,8 @@ void ofApp::setup(){
         lfo >> wavesynth.voices[i].in("table");
     }
     
-    wavesynth.out_L() >> chorus.in_R(); chorus.out_L() >> engine.audio_out(0);
-    wavesynth.out_R() >> chorus.in_L(); chorus.out_R() >> engine.audio_out(1);
+    wavesynth.ch(0) >> chorus.ch(0) >> engine.audio_out(0);
+    wavesynth.ch(1) >> chorus.ch(1) >> engine.audio_out(1);
 
 
     // graphic setup---------------------------

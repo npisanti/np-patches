@@ -6,11 +6,9 @@
 
 void np::effect::Filter::patch(){
     
-    addModuleInput( "L", filter.in_0() );
-    addModuleInput( "R", filter.in_1() );
+    addModuleInput( "signal", filter.ch(0) );
+    addModuleOutput( "signal", filter.ch(0) );
     
-    addModuleOutput( "L", filter.out_0() );
-    addModuleOutput( "R", filter.out_1() );
     addModuleInput( "cutoff", filter.in_cutoff() );
     
     cutoffControl    >> filter.in_cutoff();
@@ -42,18 +40,6 @@ void np::effect::Filter::smoothing( float ms ){
     resoControl.enableSmoothing( ms );
 }
 
-pdsp::Patchable & np::effect::Filter::in_L() {
-    return in("L");
-}
-
-pdsp::Patchable & np::effect::Filter::in_R() {
-    return in("R");
-}
-
-pdsp::Patchable & np::effect::Filter::out_L() {
-    return out("L");
-}
-
-pdsp::Patchable & np::effect::Filter::out_R() {
-    return out("R");
+pdsp::Patchable & np::effect::Filter::ch( size_t index ) {
+    return filter.ch( index );
 }

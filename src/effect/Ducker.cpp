@@ -6,11 +6,9 @@
 
 void np::effect::Ducker::patch(){
 
-    addModuleInput( "L", ducker.in_0() );
-    addModuleInput( "R", ducker.in_1() );
+    addModuleInput( "signal", ducker.ch(0) );
     addModuleInput( "trig", ducker.in_trig() );
-    addModuleOutput( "L", ducker.out_0() );
-    addModuleOutput( "R", ducker.out_1() );
+    addModuleOutput( "signal", ducker.ch(0) );
     
     attackControl  >> ducker.in_attack();
     holdControl    >> ducker.in_hold();
@@ -35,20 +33,8 @@ float np::effect::Ducker::meter_env() const {
     return ducker.meter_env();
 }
 
-pdsp::Patchable & np::effect::Ducker::in_L() {
-    return in("L");
-}
-
-pdsp::Patchable & np::effect::Ducker::in_R() {
-    return in("R");
-}
-
-pdsp::Patchable & np::effect::Ducker::out_L() {
-    return out("L");
-}
-
-pdsp::Patchable & np::effect::Ducker::out_R() {
-    return out("R");
+pdsp::Patchable & np::effect::Ducker::ch( size_t index ) {
+    return ducker.ch( index );
 }
 
 pdsp::Patchable & np::effect::Ducker::in_trig() {

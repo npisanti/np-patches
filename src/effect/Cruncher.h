@@ -20,15 +20,14 @@ public:
 
     float meter_decimate_pitch() const;
 
-    pdsp::Patchable & in_L();
-    pdsp::Patchable & in_R();
-    pdsp::Patchable & out_L();
-    pdsp::Patchable & out_R();
+    pdsp::Patchable & ch( size_t index );
     
     ofParameterGroup & label( std::string name );
 
 private:    
     void patch();
+    std::vector<pdsp::ChannelNode> channels;
+
 
     pdsp::Decimator     decimate0;
     pdsp::Decimator     decimate1;

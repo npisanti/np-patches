@@ -6,7 +6,7 @@
 
 namespace np { namespace effect {  
     
-class BasiVerb {
+class BasiVerb : public pdsp::Patchable {
 
 public:    
     BasiVerb() { patch(); }
@@ -16,15 +16,16 @@ public:
 
     float meter_lfo() const;
 
-    pdsp::Patchable & in();
     pdsp::Patchable & in_signal();
-    pdsp::Patchable & out_L();
-    pdsp::Patchable & out_R();
+
+    pdsp::Patchable & ch( size_t index );
 
     ofParameterGroup & label( string name );
     
 private:    
     void patch();
+    
+    std::vector<pdsp::ChannelNode> channels;
         
     pdsp::BasiVerb 	    reverb;
     

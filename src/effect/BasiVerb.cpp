@@ -6,8 +6,13 @@
 
 void np::effect::BasiVerb::patch(){
 
-	reverb.out_L() >> gain.in_L();
-	reverb.out_R() >> gain.in_R();	
+    channels.resize(2);
+    
+    addModuleInput( "signal", channels[0] );
+    addModuleOutput( "signal", channels[0] );
+
+	channels[0].input >> reverb.ch(0) >> gain.ch(0) >> channels[0].output;
+	channels[1].input >> reverb.ch(1) >> gain.ch(1) >> channels[1].output;
 	
 	timeControl 		>> reverb.in_time();
     densityControl 		>> reverb.in_density();
@@ -35,19 +40,11 @@ float np::effect::BasiVerb::meter_lfo() const {
     return reverb.meter_lfo();
 }
 
-pdsp::Patchable & np::effect::BasiVerb::in() {
-    return reverb.in_signal();
-}
-
 pdsp::Patchable & np::effect::BasiVerb::in_signal() {
     return reverb.in_signal();
 }
 
-pdsp::Patchable & np::effect::BasiVerb::out_L() {
-    return gain.out_L();
+pdsp::Patchable & np::effect::BasiVerb::ch( size_t index ) {
+    pdsp::wrapChannelIndex( index );
+    return channels[index];
 }
-
-pdsp::Patchable & np::effect::BasiVerb::out_R() {
-    return gain.out_R();
-}
-

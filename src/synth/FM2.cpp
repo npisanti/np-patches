@@ -17,12 +17,12 @@ ofParameterGroup & np::synth::FM2::setup( int numVoices, float spread, std::stri
         voices[i].setup( *this, i );
         
         if( spread==0.0f ){
-            voices[i] >> gain.in_0();
-            voices[i] >> gain.in_1();
+            voices[i] >> gain.ch(0);
+            voices[i] >> gain.ch(1);
         }else{
             float spreadamt = pdsp::spread( i, numVoices, spread );
-            voices[i] * pdsp::panL(spreadamt )>> gain.in_0();
-            voices[i] * pdsp::panR(spreadamt )>> gain.in_1();
+            voices[i] * pdsp::panL(spreadamt )>> gain.ch(0);
+            voices[i] * pdsp::panR(spreadamt )>> gain.ch(1);
         }
     }
 
@@ -68,16 +68,14 @@ void np::synth::FM2::Voice::setup( FM2 & m, int i ){
     m.fm_ctrl >> fmAmp.in_mod();
     m.self_ctrl >> carrier.in_fb();
     
-    //modulator.out_sync() >> carrier.in_sync();
-
-
+    
     // SIGNAL PATH
     modulator >> fmAmp >> carrier.in_fm() >> voiceAmp;
     
         
     // MODULATIONS AND CONTROL
-    envelope >> m.fm_mod[i]   >> fmAmp.in_mod();
-    envelope >> m.self_mod[i] >> carrier.in_fb();
+    envelope >> m.fm_mod.ch(i)   >> fmAmp.in_mod();
+    envelope >> m.self_mod.ch(i) >> carrier.in_fb();
     
     voiceTrigger >> envelope >> voiceAmp.in_mod();
 
@@ -105,12 +103,13 @@ float np::synth::FM2::Voice::meter_pitch() const{
     return carrier.meter_pitch();
 }
 
-pdsp::Patchable& np::synth::FM2::out_L(){
-    return gain.out_0();
-}
-
-pdsp::Patchable& np::synth::FM2::out_R(){
-    return gain.out_1();
+pdsp::Patchable& np::synth::FM2::ch( size_t index ){
+    pdsp::wrapChannelIndex( index );
+    switch( index ){
+        case 0: return gain.ch(0); break;
+        case 1: return gain.ch(1); break;
+    }
+    return gain.ch(0);
 }
 
 pdsp::Patchable& np::synth::FM2::Voice::in_trig(){

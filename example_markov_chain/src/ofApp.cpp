@@ -27,8 +27,8 @@ void ofApp::setup(){
     zap >> engine.audio_out(1);        
     noise >> engine.audio_out(0);
     noise >> engine.audio_out(1);        
-    click.out_L() >> engine.audio_out(0);
-    click.out_R() >> engine.audio_out(1);        
+    click.ch(0) >> engine.audio_out(0);
+    click.ch(1) >> engine.audio_out(1);        
     
     
     // -------------------GRAPHIC SETUP--------------

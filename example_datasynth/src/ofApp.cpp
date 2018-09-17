@@ -35,8 +35,8 @@ void ofApp::setup(){
         keyboard.out_pitch(i) >> dtsynth.voices[i].in("pitch");
     }
     
-    dtsynth.out_L() >> chorus.in_L(); chorus.out_L() >> engine.audio_out(0);
-    dtsynth.out_R() >> chorus.in_R(); chorus.out_R() >> engine.audio_out(1);
+    dtsynth.ch(0) >> chorus.ch(0) >> engine.audio_out(0);
+    dtsynth.ch(0) >> chorus.ch(1) >> engine.audio_out(1);
 
     // graphic setup---------------------------
     ofSetVerticalSync(true);
@@ -75,7 +75,7 @@ void ofApp::update(){
 		switch( mode ){
 			case 0: // converting pixels to waveform samples
 				dtsynth.datatable.begin();
-				for(size_t n=0; n<camHeight; ++n){
+				for(int n=0; n<camHeight; ++n){
 					float sample = ofMap(pixels.getData()[col*3 + channel + n*3*camWidth], 0, 255, -0.5f, 0.5f);
 					dtsynth.datatable.data(n, sample);
 				}
@@ -84,7 +84,7 @@ void ofApp::update(){
 			
 			case 1: // converting pixels to partials for additive synthesis
 				dtsynth.datatable.begin();
-				for(size_t n=0; n<camHeight; ++n){
+				for(int n=0; n<camHeight; ++n){
 					float partial = ofMap(pixels.getData()[col*3 + channel + n*3*camWidth], 0, 255, 0.0f, 1.0f);
 					dtsynth.datatable.data(n, partial);
 				}
@@ -102,7 +102,7 @@ void ofApp::update(){
 		switch( mode ){
 			case 0: // plot the raw waveforms
 				ofBeginShape();
-				for(size_t n=0; n<camHeight; ++n){
+				for(int n=0; n<camHeight; ++n){
 					float y = ofMap(pixels.getData()[col*3 + channel + n*3*camWidth], 0, 255, camHeight, 0);
 					ofVertex( n*2, y );
 				}
@@ -110,7 +110,7 @@ void ofApp::update(){
 			break;
 			
 			case 1: // plot the partials
-				for(size_t n=0; n<camHeight; ++n){
+				for(int n=0; n<camHeight; ++n){
 					float partial = ofMap(pixels.getData()[col*3 + channel + n*3*camWidth], 0, 255, 0.0f, 1.0f);
 					int h = waveplot.getHeight() * partial;
 					int y = waveplot.getHeight() - h;

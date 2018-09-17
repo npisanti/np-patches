@@ -14,8 +14,8 @@ void ofApp::setup(){
     drone.addSample( sample3 );
     drone.smoothing( 100.0f );
 
-    drone.out_L() >> engine.audio_out(0);
-    drone.out_R() >> engine.audio_out(1);
+    drone.ch(0) >> engine.audio_out(0);
+    drone.ch(1) >> engine.audio_out(1);
     
     
     gui.setup( "gui", "settings.xml");

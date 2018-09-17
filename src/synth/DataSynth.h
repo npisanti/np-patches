@@ -47,8 +47,7 @@ public:
     
     pdsp::DataTable  datatable;
 
-    pdsp::Patchable& out_L();
-    pdsp::Patchable& out_R();
+    pdsp::Patchable& ch( size_t index );
 
     std::vector<Voice>  voices;
     

@@ -13,8 +13,8 @@ void np::synth::NoiseDevice::patch() {
     addModuleOutput( "L", gain0 );
     addModuleOutput( "R", gain1 );
     
-    noise.out_L() >> filter.in_0(); filter.out_0() >> amp0 >> gain0;
-    noise.out_R() >> filter.in_1(); filter.out_1() >> amp1 >> gain1;
+    noise.ch(0) >> filter.ch(0) >> amp0 >> gain0;
+    noise.ch(1) >> filter.ch(1) >> amp1 >> gain1;
     
     trigger >> noise.in_trig();
     trigger >> ampEnv >> amp0.in_mod();
@@ -98,10 +98,11 @@ pdsp::Patchable & np::synth::NoiseDevice::in_decimate(){
     return in("decimate");
 }
 
-pdsp::Patchable & np::synth::NoiseDevice::out_L() {
-    return out("L");
+pdsp::Patchable & np::synth::NoiseDevice::ch( size_t index ) {
+    pdsp::wrapChannelIndex( index );
+    switch( index ){
+        case 0: return out("L"); break;
+        case 1: return out("R"); break;
+    }
+    return out("L"); 
 }
-pdsp::Patchable & np::synth::NoiseDevice::out_R() {
-    return out("R");
-}
-

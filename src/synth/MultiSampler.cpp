@@ -113,11 +113,12 @@ pdsp::Patchable & np::synth::MultiSampler::in_pitch() {
     return in("pitch");
 }
 
-
-pdsp::Patchable & np::synth::MultiSampler::out_L() {
-    return out("L");
-}
-pdsp::Patchable & np::synth::MultiSampler::out_R() {
-    return out("R");
+pdsp::Patchable & np::synth::MultiSampler::ch( size_t index ) {
+    pdsp::wrapChannelIndex( index );
+    switch( index ){
+        case 0: return out("L"); break;
+        case 1: return out("R"); break;
+    }
+    return out("L"); 
 }
 

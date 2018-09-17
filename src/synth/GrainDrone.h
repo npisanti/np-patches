@@ -19,9 +19,10 @@ public:
     pdsp::Patchable& in_dry_control();
     pdsp::Patchable& in_resonator_control( int i );
     pdsp::Patchable& in_position();
-    pdsp::Patchable& in_fb();
-    pdsp::Patchable& out_L();
-    pdsp::Patchable& out_R();
+    pdsp::Patchable& in_feedback();
+
+    pdsp::Patchable& ch( size_t index );
+
     
     float meter_cutoff() const;
         

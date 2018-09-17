@@ -25,21 +25,21 @@ void ofApp::setup(){
     midiKeys.outs_trig[0]  >> lead.voices[0].in("trig");
     midiKeys.outs_pitch[0] >> lead.voices[0].in("pitch");
     
-    lead.out_L() >> reverb.in();
-    lead.out_L() >> delays.in_L();
-    lead.out_R() >> delays.in_R();    
+    lead.ch(0) >> reverb;
+    lead.ch(0) >> delays.ch(0);
+    lead.ch(1) >> delays.ch(1);    
 
-    delays.out_L() >> reverb.in();
-    delays.out_R() >> reverb.in();
+    delays.ch(0) >> reverb;
+    delays.ch(1) >> reverb;
     
-    lead.out_L() >> engine.audio_out(0);
-    lead.out_L() >> engine.audio_out(1);
+    lead.ch(0) >> engine.audio_out(0);
+    lead.ch(0) >> engine.audio_out(1);
     
-    reverb.out_L() >> engine.audio_out(0);
-    reverb.out_R() >> engine.audio_out(1);
+    reverb.ch(0) >> engine.audio_out(0);
+    reverb.ch(1) >> engine.audio_out(1);
   
-    delays.out_L() >> engine.audio_out(0);
-    delays.out_R() >> engine.audio_out(1);
+    delays.ch(0) >> engine.audio_out(0);
+    delays.ch(1) >> engine.audio_out(1);
   
     // graphic setup---------------------------
     ofSetVerticalSync(true);

@@ -18,8 +18,7 @@ public:
     pdsp::Patchable & in_select();
     pdsp::Patchable & in_pitch();
     
-    pdsp::Patchable & out_L();
-    pdsp::Patchable & out_R();
+    pdsp::Patchable & ch( size_t index );
 
     void dBTriggering( bool enable );
     void addSample( pdsp::SampleBuffer & sample);

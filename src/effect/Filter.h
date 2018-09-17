@@ -16,10 +16,7 @@ public:
 
     pdsp::Patchable& in_cutoff();
 
-    pdsp::Patchable & in_L();
-    pdsp::Patchable & in_R();
-    pdsp::Patchable & out_L();
-    pdsp::Patchable & out_R();
+    pdsp::Patchable & ch( size_t index );
     
     void smoothing( float ms );
 

@@ -24,19 +24,6 @@ float np::effect::Chorus::meter_lfo() const {
     return chorus.meter_lfo();
 }
 
-pdsp::Patchable & np::effect::Chorus::in_L() {
-    return chorus.in_0();
+pdsp::Patchable & np::effect::Chorus::ch( size_t index ) {
+    return chorus.ch( index );
 }
-
-pdsp::Patchable & np::effect::Chorus::in_R() {
-    return chorus.in_1();
-}
-
-pdsp::Patchable & np::effect::Chorus::out_L() {
-    return chorus.out_0();
-}
-
-pdsp::Patchable & np::effect::Chorus::out_R() {
-    return chorus.out_1();
-}
-

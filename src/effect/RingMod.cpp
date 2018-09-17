@@ -4,21 +4,31 @@
 
 #include "RingMod.h"
 
+np::effect::RingMod::Submodule::Submodule(){
+    addModuleInput( "signal", input );
+    addModuleOutput( "signal", mix );
+    
+    input >>       mix.in_A();
+    input >> rm >> mix.in_B();
+}
+
 void np::effect::RingMod::patch(){
     
-    addModuleInput( "L", rm0 );
-    addModuleInput( "R", rm1 );
+    channels.resize(2);
     
-    addModuleOutput( "L", wet0 );
-    addModuleOutput( "R", wet1 );
+    addModuleInput( "L", channels[0] );
+    addModuleInput( "R", channels[1] );
+    
+    addModuleOutput( "L", channels[0] );
+    addModuleOutput( "R", channels[1] );
     addModuleInput( "pitch", sine.in_pitch() );
     
     pitchControl >> sine.in_pitch();
-                    sine >> rm0.in_mod() >> wet0.in_1();
-                    sine >> rm1.in_mod() >> wet1.in_1();
-    
-    wetControl >> wet0.in_fade();
-    wetControl >> wet1.in_fade();
+                    sine >> b2u >> channels[0].rm.in_mod();
+                            b2u >> channels[1].rm.in_mod();
+
+    wetControl >> channels[0].mix.in_fade();
+    wetControl >> channels[1].mix.in_fade();
     
     parameters.setName( "ring modulator" );
     parameters.add( pitchControl.set( "pitch", 72, 0, 148) );
@@ -36,20 +46,9 @@ ofParameterGroup & np::effect::RingMod::label( std::string name ){
     return parameters;
 }
 
-pdsp::Patchable& np::effect::RingMod::in_L() {
-    return in("L");
-}
-
-pdsp::Patchable& np::effect::RingMod::in_R() {
-    return in("R");
-}
-
-pdsp::Patchable& np::effect::RingMod::out_L() {
-    return out("L");
-}
-
-pdsp::Patchable& np::effect::RingMod::out_R() {
-    return out("R");
+pdsp::Patchable& np::effect::RingMod::ch( size_t index ) {
+    pdsp::wrapChannelIndex( index );
+    return channels[index];
 }
 
 pdsp::Patchable& np::effect::RingMod::in_pitch() {

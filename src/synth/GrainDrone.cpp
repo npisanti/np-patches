@@ -58,8 +58,8 @@ ofParameterGroup & np::synth::GrainDrone::setup( int w, int h, std::string name,
     resonators_control.resize(4);
     sendnode.resize(4);
     
-    cloud.out_L() >> dryL >> voiceAmpL;
-    cloud.out_R() >> dryR >> voiceAmpR;
+    cloud.ch(0) >> dryL >> voiceAmpL;
+    cloud.ch(1) >> dryR >> voiceAmpR;
     
     drynode >> dryL.in_mod();
     drynode >> dryR.in_mod();
@@ -67,13 +67,13 @@ ofParameterGroup & np::synth::GrainDrone::setup( int w, int h, std::string name,
     if(guicontrol) dry_control >> drynode;
     
     for(int i=0; i<8; ++i){
-        fbInput >> resonators[i].in_fb();
-        resonatorsFBControl >> resonators[i].in_fb();
+        fbInput >> resonators[i].in_feedback();
+        resonatorsFBControl >> resonators[i].in_feedback();
         resonatorsDampControl >> resonators[i].in_damping();
         if(i%2==0){
-            cloud.out_L() >> resonators_sends[i] >> resonators[i] >> voiceAmpL;
+            cloud.ch(0) >> resonators_sends[i] >> resonators[i] >> voiceAmpL;
         }else{
-            cloud.out_R() >> resonators_sends[i] >> resonators[i] >> voiceAmpR;
+            cloud.ch(1) >> resonators_sends[i] >> resonators[i] >> voiceAmpR;
         }
     }
     
@@ -202,17 +202,19 @@ pdsp::Patchable& np::synth::GrainDrone::in_resonator_control( int i ){
     }
 }
 
-pdsp::Patchable& np::synth::GrainDrone::out_L() {
+pdsp::Patchable& np::synth::GrainDrone::ch( size_t index ) {
+    pdsp::wrapChannelIndex( index );
+    switch( index ){
+        case 0: return voiceAmpL; break;
+        case 1: return voiceAmpR; break;
+    }
     return voiceAmpL;
 }
 
-pdsp::Patchable& np::synth::GrainDrone::out_R() {
-    return voiceAmpR;
-}
-
-pdsp::Patchable& np::synth::GrainDrone::in_fb(){
+pdsp::Patchable& np::synth::GrainDrone::in_feedback(){
     return fbInput;
 }
+
 pdsp::Patchable& np::synth::GrainDrone::in_position(){
     return cloud.in_position();
 }

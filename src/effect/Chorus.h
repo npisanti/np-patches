@@ -16,11 +16,8 @@ public:
 
     float meter_lfo() const;
 
-    pdsp::Patchable & in_L();
-    pdsp::Patchable & in_R();
-    pdsp::Patchable & out_L();
-    pdsp::Patchable & out_R();
-
+    pdsp::Patchable & ch( size_t index );
+    
     ofParameterGroup & label( std::string name );
 
 private:    

@@ -51,8 +51,7 @@ public:
     // synth public API --------------------------------------
     ofParameterGroup & setup( int numVoice, float spread=0.0f, std::string name="wavesynth" );
 
-    pdsp::Patchable& out_L();
-    pdsp::Patchable& out_R();
+    pdsp::Patchable& ch( size_t index );
 
     vector<Voice>       voices;
     ofParameterGroup    parameters;

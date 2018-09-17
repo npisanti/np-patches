@@ -18,10 +18,7 @@ public:
 
     pdsp::Patchable & in_trig();
 
-    pdsp::Patchable & in_L();
-    pdsp::Patchable & in_R();
-    pdsp::Patchable & out_L();
-    pdsp::Patchable & out_R();
+    pdsp::Patchable & ch( size_t index );
 
     ofParameterGroup & label( std::string name );
 

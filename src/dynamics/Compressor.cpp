@@ -4,19 +4,26 @@
 
 #include "Compressor.h"
 
-void np::dynamics::Compressor::patch(){
+np::dynamics::Compressor::Submodule::Submodule(){
+    addModuleInput("signal", input );
+    addModuleOutput( "signal", output);
+}
 
-    addModuleInput( "L", input0 );
-    addModuleInput( "R", comp.in_1() );
-    addModuleOutput( "L", makeup.out_0() );
-    addModuleOutput( "R", makeup.out_1() );
+
+void np::dynamics::Compressor::patch(){
+    
+    submodules.resize(2);
+
+    addModuleInput( "signal", submodules[0].input );
+    addModuleInput( "R", submodules[1].input );
+    addModuleOutput( "signal", submodules[0].output );
+    addModuleOutput( "R", submodules[1].output );
     
     comp.RMS( 25.0f );
     comp.analog();
     
-    input0 >> comp.in_0();
-    comp.out_0() >> makeup.in_0();
-    comp.out_1() >> makeup.in_1();
+    submodules[0].input >>comp.ch(0) >> makeup.ch(0) >> submodules[0].output;
+    submodules[1].input >>comp.ch(1) >> makeup.ch(1) >> submodules[1].output;
 
     attackControl       >> comp.in_attack();
     releaseControl      >> comp.in_release();
@@ -33,7 +40,7 @@ void np::dynamics::Compressor::patch(){
 }
 
 void np::dynamics::Compressor::enableScope( ofxPDSPEngine & engine ){   
-    input0 >> scope >> engine.blackhole();
+    submodules[0].input  >> scope >> engine.blackhole();
     scope.set(512*8); 
 }
     
@@ -84,18 +91,7 @@ float np::dynamics::Compressor::meter_GR() const {
     return comp.meter_GR();
 }
 
-pdsp::Patchable & np::dynamics::Compressor::in_L() {
-    return in("L");
-}
-
-pdsp::Patchable & np::dynamics::Compressor::in_R() {
-    return in("R");
-}
-
-pdsp::Patchable & np::dynamics::Compressor::out_L() {
-    return out("L");
-}
-
-pdsp::Patchable & np::dynamics::Compressor::out_R() {
-    return out("R");
+pdsp::Patchable & np::dynamics::Compressor::ch( size_t index ) {
+    pdsp::wrapChannelIndex( index );
+    return submodules[ index ];
 }

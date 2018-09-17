@@ -18,8 +18,8 @@ void ofApp::setup(){
 
     loop.load( ofToDataPath("classic_bird_wave.wav") );
     
-    loop >> dyn.out_L() >> engine.audio_out(0);
-            dyn.out_L() >> engine.audio_out(1);
+    loop >> dyn >> engine.audio_out(0);
+            dyn >> engine.audio_out(1);
    
     
     dyn.enableScope( engine );

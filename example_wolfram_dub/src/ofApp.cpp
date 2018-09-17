@@ -97,19 +97,19 @@ void ofApp::setup(){
         zaps[i] >> engine.audio_out(0);
         zaps[i] >> engine.audio_out(1);
     
-        zaps[i] >> reverb.in();
-        zaps[i] >> dub.in("0");
-        zaps[i] >> dub.in("1");
+        zaps[i] >> reverb;
+        zaps[i] >> dub.ch(0);
+        zaps[i] >> dub.ch(1);
     }
     // connect the zaps to the stereo delay
-                  dub.out("0") >> engine.audio_out(0);
-                  dub.out("1") >> engine.audio_out(1);
-                  dub.out("0") * dB(12.0f) >> scopes[ZAPS_NUMBER]   >> engine.blackhole();
-                  dub.out("1") * dB(12.0f) >> scopes[ZAPS_NUMBER+1] >> engine.blackhole();
+                  dub.ch(0) >> engine.audio_out(0);
+                  dub.ch(1) >> engine.audio_out(1);
+                  dub.ch(0) * dB(12.0f) >> scopes[ZAPS_NUMBER]   >> engine.blackhole();
+                  dub.ch(1) * dB(12.0f) >> scopes[ZAPS_NUMBER+1] >> engine.blackhole();
     
     // patch the reverb to an high pass filter and then to the engine
-    reverb.out_L() >> revCut.in_0(); revCut.out_0() >> engine.audio_out(0);
-    reverb.out_R() >> revCut.in_1(); revCut.out_1() >> engine.audio_out(1);
+    reverb.ch(0) >> revCut.ch(0) >> engine.audio_out(0);
+    reverb.ch(0) >> revCut.ch(0) >> engine.audio_out(1);
     100.0f >> revCut.in_freq(); // 100hz, we cut the reverb muddy low end 
 
     // ------------ GUI ------------

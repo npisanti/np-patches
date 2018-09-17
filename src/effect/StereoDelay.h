@@ -19,14 +19,13 @@ public:
     pdsp::Parameter     lFeedbackControl;
     pdsp::Parameter     rFeedbackControl;
 
-    pdsp::Patchable & in_L();
-    pdsp::Patchable & in_R();
-    pdsp::Patchable & out_L();
-    pdsp::Patchable & out_R();
+    pdsp::Patchable & ch( size_t index );
 
     ofParameterGroup & label( string name );
 
 private:
+    std::vector<pdsp::ChannelNode> channels;
+
     void patch();
 
     pdsp::LFOPhazor         phazor;
@@ -34,15 +33,15 @@ private:
     pdsp::ParameterAmp      modAmt;
     pdsp::Parameter         speed;
 
-    pdsp::Delay ldelay;
-    pdsp::Delay rdelay;
+    pdsp::Delay delay0;
+    pdsp::Delay delay1;
     
     pdsp::OneBarTimeMs time;
 
     pdsp::Parameter dampingControl;
     
-    pdsp::ParameterGain input;
-    pdsp::ParameterGain output;
+    pdsp::ParameterGain inputFader;
+    pdsp::ParameterGain outputFader;
     
 };
 

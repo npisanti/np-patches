@@ -4,31 +4,32 @@
 
 void np::effect::StereoDelay::patch() {
     
-    addModuleInput("0", input.in_0() );
-    addModuleInput("1", input.in_1() );
-    addModuleOutput("0", output.out_0() );
-    addModuleOutput("1", output.out_1() );
+    channels.resize(2);
+    
+    addModuleInput("0", channels[0] );
+    addModuleInput("1", channels[1] );
+    addModuleOutput("0", channels[0] );
+    addModuleOutput("1", channels[1] );
 
-    input.out_L() >> ldelay >> output.in_L();
-    input.out_R() >> rdelay >> output.in_R();
-
-
+    channels[0].input >> inputFader.ch(0) >> delay0 >> outputFader.ch(0) >> channels[0].output;
+    channels[1].input >> inputFader.ch(1) >> delay1 >> outputFader.ch(1) >> channels[1].output;
+    
     speed >> phazor.in_freq() >> LFO >> modAmt;
     
-                                    modAmt >> ldelay.in_time();
-    time * (1.f/16.f) >> lDelayTimeControl >> ldelay.in_time();
-                            modAmt * -1.0f >> rdelay.in_time();
-    time * (1.f/16.f) >> rDelayTimeControl >> rdelay.in_time();
+                                    modAmt >> delay0.in_time();
+    time * (1.f/16.f) >> lDelayTimeControl >> delay0.in_time();
+                            modAmt * -1.0f >> delay1.in_time();
+    time * (1.f/16.f) >> rDelayTimeControl >> delay1.in_time();
 
 
-    lFeedbackControl >> ldelay.in_feedback();
-    rFeedbackControl >> rdelay.in_feedback();
-    dampingControl >> ldelay.in_damping();
-    dampingControl >> rdelay.in_damping();
+    lFeedbackControl >> delay0.in_feedback();
+    rFeedbackControl >> delay1.in_feedback();
+    dampingControl >> delay0.in_damping();
+    dampingControl >> delay1.in_damping();
 
     parameters.setName("stereo delay");
 
-    parameters.add( input.set("input gain", -15, -48, 12) );
+    parameters.add( inputFader.set("input gain", -15, -48, 12) );
     
     parameters.add( lDelayTimeControl.set("L 16th time", 4, 1, 24) );
     parameters.add( lFeedbackControl.set("L feedback", 0.4f, 0.0f, 1.0f));
@@ -39,10 +40,10 @@ void np::effect::StereoDelay::patch() {
     parameters.add(speed.set("mod speed (hz)", 0.25f, 0.05f, 4.0f));
     parameters.add(modAmt.set("mod depth (ms)", 0.0f, 0.0f, 8.0f));
        
-    parameters.add( output.set("output gain", 0, -48, 12) );
+    parameters.add( outputFader.set("output gain", 0, -48, 12) );
 
-    input.enableSmoothing(50.f);
-    output.enableSmoothing(50.f);
+    inputFader.enableSmoothing(50.f);
+    outputFader.enableSmoothing(50.f);
     lDelayTimeControl.enableSmoothing(450.f);
     lDelayTimeControl.enableSmoothing(450.f);
     lFeedbackControl.enableSmoothing(50.f);
@@ -57,19 +58,7 @@ ofParameterGroup & np::effect::StereoDelay::label( string name ){
 }
 
 
-pdsp::Patchable & np::effect::StereoDelay::in_L() {
-    return in("0");
+pdsp::Patchable & np::effect::StereoDelay::ch( size_t index ) {
+    pdsp::wrapChannelIndex( index );
+    return channels[index];
 }
-
-pdsp::Patchable & np::effect::StereoDelay::in_R() {
-    return in("1");
-}
-
-pdsp::Patchable & np::effect::StereoDelay::out_L() {
-    return out("0");
-}
-
-pdsp::Patchable & np::effect::StereoDelay::out_R() {
-    return out("1");
-}
-

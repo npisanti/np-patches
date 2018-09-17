@@ -18,8 +18,6 @@ void np::synth::SinePercussion::patch(){
     triggers >> pEnv.set(0.0f, 0.0f,  50.0f) >> pModAmt >> osc.in_pitch();
                                            pitchControl >> osc.in_pitch();
 
-    //triggers >> osc.in_sync();
-    
     gainControl >> dBtoLin  >> gain.in_mod();
     veloToEnv       >> pEnv.in_velocity();
     pEnvAmtControl     >> pModAmt.in_mod();

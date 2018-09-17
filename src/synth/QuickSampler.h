@@ -16,11 +16,7 @@ public:
     pdsp::Patchable & in_trig();
     pdsp::Patchable & in_pitch();
     
-    pdsp::Patchable & out_0();
-    pdsp::Patchable & out_1();
-
-    pdsp::Patchable & out_L();
-    pdsp::Patchable & out_R();
+    pdsp::Patchable & ch( size_t index );
 
     void dBTriggering( bool enable );
     void load(string path);

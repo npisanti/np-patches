@@ -19,10 +19,7 @@ public:
 
     float meter_GR() const;
 
-    pdsp::Patchable & in_L();
-    pdsp::Patchable & in_R();
-    pdsp::Patchable & out_L();
-    pdsp::Patchable & out_R();
+    pdsp::Patchable & ch( size_t index );
 
     ofParameterGroup & label( std::string name );
 
@@ -33,18 +30,20 @@ public:
     void draw( int x, int y, int w, int h );
 
 private:    
+    struct Submodule : public pdsp::Patchable{
+        Submodule();
+        pdsp::PatchNode input;
+        pdsp::SoftClip clip;
+        pdsp::IIRUpSampler2x upsampler;
+        pdsp::IIRDownSampler2x downsampler; 
+    };
+
     void patch();
         
     pdsp::Compressor comp;
     
-    pdsp::SoftClip clip0;
-    pdsp::SoftClip clip1;
-    pdsp::IIRUpSampler2x upsampler0;
-    pdsp::IIRUpSampler2x upsampler1;
-    pdsp::IIRDownSampler2x downsampler0;
-    pdsp::IIRDownSampler2x downsampler1;
-    
-    pdsp::PatchNode input0;
+    Submodule submodule0;
+    Submodule submodule1;
     
     pdsp::ParameterGain makeup;
     

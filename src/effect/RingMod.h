@@ -14,29 +14,32 @@ public:
     
     ofParameterGroup parameters;
 
-    pdsp::Patchable& in_pitch();
+    pdsp::Patchable & in_pitch();
 
-    pdsp::Patchable & in_L();
-    pdsp::Patchable & in_R();
-    pdsp::Patchable & out_L();
-    pdsp::Patchable & out_R();
+    pdsp::Patchable & ch( size_t index );
     
     void smoothing( float ms );
 
     ofParameterGroup & label( std::string name );
     
 private:    
+    struct Submodule : public pdsp::Patchable {
+        Submodule();
+        pdsp::PatchNode         input;
+        pdsp::Amp               rm;
+        pdsp::LinearCrossfader  mix;
+    };
+
     void patch();
+    
+    std::vector<Submodule> channels;
         
     pdsp::FMOperator        sine;
+    pdsp::BipolarToUnipolar b2u;
     
     pdsp::Parameter            pitchControl;
     pdsp::Parameter            wetControl;      
-    
-    pdsp::Amp               rm0;
-    pdsp::Amp               rm1;
-    pdsp::LinearCrossfader  wet0;
-    pdsp::LinearCrossfader  wet1;
+
     
 };
     

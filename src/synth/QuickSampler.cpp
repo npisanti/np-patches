@@ -166,9 +166,11 @@ pdsp::Patchable & np::synth::QuickSampler::in_pitch() {
     return in("pitch");
 }
 
-pdsp::Patchable & np::synth::QuickSampler::out_L() {
-    return out("L");
-}
-pdsp::Patchable & np::synth::QuickSampler::out_R() {
-    return out("R");
+pdsp::Patchable & np::synth::QuickSampler::ch( size_t index ) {
+    pdsp::wrapChannelIndex( index );
+    switch( index ){
+        case 0: return out("L"); break;
+        case 1: return out("R"); break;
+    }
+    return out("L"); 
 }

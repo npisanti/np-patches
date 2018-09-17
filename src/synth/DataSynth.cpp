@@ -14,12 +14,12 @@ ofParameterGroup & np::synth::DataSynth::setup(int numVoices, float spread, std:
         voices[i].setup( *this );
         
         if( spread==0.0f ){
-            voices[i] >> gain.in_0();
-            voices[i] >> gain.in_1();
+            voices[i] >> gain.ch(0);
+            voices[i] >> gain.ch(1);
         }else{
             float spreadamt = pdsp::spread( i, numVoices, spread );
-            voices[i] * pdsp::panL(spreadamt )>> gain.in_0();
-            voices[i] * pdsp::panR(spreadamt )>> gain.in_1();
+            voices[i] * pdsp::panL(spreadamt )>> gain.ch(0);
+            voices[i] * pdsp::panR(spreadamt )>> gain.ch(1);
         }
     }
     
@@ -91,12 +91,13 @@ float np::synth::DataSynth::Voice::meter_pitch() const{
     return oscillator.meter_pitch();
 }
 
-pdsp::Patchable& np::synth::DataSynth::out_L(){
-    return gain.out_0();
-}
-
-pdsp::Patchable& np::synth::DataSynth::out_R(){
-    return gain.out_1();
+pdsp::Patchable& np::synth::DataSynth::ch( size_t index ){
+    pdsp::wrapChannelIndex( index );
+    switch( index ){
+        case 0: return gain.ch(0); break;
+        case 1: return gain.ch(1); break;
+    }
+    return gain.ch(0);
 }
 
 ofParameterGroup & np::synth::DataSynth::label (std::string name ){

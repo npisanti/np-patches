@@ -4,26 +4,31 @@
 
 #include "Brickwall.h"
 
+np::dynamics::Brickwall::Submodule::Submodule(){
+    addModuleInput("signal", input );
+    addModuleOutput( "signal", downsampler);
+    clip.setOversampleLevel(2);
+    upsampler >> clip >> downsampler;
+}
+
 void np::dynamics::Brickwall::patch(){
 
-    addModuleInput( "L", input0 );
-    addModuleInput( "R", comp.in_1() );
-    addModuleOutput( "L", downsampler0 );
-    addModuleOutput( "R", downsampler1 );
+    addModuleInput( "signal", submodule0 );
+    addModuleInput( "R", submodule1 );
+    addModuleOutput( "signal", submodule0 );
+    addModuleOutput( "R", submodule1 );
 
     comp.digital( true );
     
-    input0 >> comp.in_0();
+    submodule0.input >> comp.ch(0);
+    submodule1.input >> comp.ch(1);
     
-    comp.out_0() >> makeup.in_0(); 
-    comp.out_1() >> makeup.in_1();
+    comp.ch(0) >> makeup.ch(0); 
+    comp.ch(1) >> makeup.ch(1); 
 
-    makeup.out_0() >> upsampler0;
-    makeup.out_1() >> upsampler1;
-    clip0.setOversampleLevel(2);
-    clip1.setOversampleLevel(2);
-    upsampler0 >> clip0 >> downsampler0;
-    upsampler1 >> clip1 >> downsampler1;   
+    makeup.ch(0) >> submodule0.upsampler;
+    makeup.ch(1) >> submodule1.upsampler;
+
 
     attackControl       >> comp.in_attack();
     releaseControl      >> comp.in_release();
@@ -31,8 +36,8 @@ void np::dynamics::Brickwall::patch(){
 
     45.0f               >> comp.in_ratio(); // limiter
 
-    clipThreshold >> clip0.in_threshold();
-    clipThreshold >> clip1.in_threshold();
+    clipThreshold >> submodule0.clip.in_threshold();
+    clipThreshold >> submodule1.clip.in_threshold();
     
     parameters.setName( "brickwall limiter" );
     
@@ -46,7 +51,7 @@ void np::dynamics::Brickwall::patch(){
 }
 
 void np::dynamics::Brickwall::enableScope( ofxPDSPEngine & engine ){   
-    clip0 >> scope >> engine.blackhole();
+    submodule0.clip >> scope >> engine.blackhole();
     scope.set(512*8); 
 }
     
@@ -97,18 +102,11 @@ float np::dynamics::Brickwall::meter_GR() const {
     return comp.meter_GR();
 }
 
-pdsp::Patchable & np::dynamics::Brickwall::in_L() {
-    return in("L");
-}
-
-pdsp::Patchable & np::dynamics::Brickwall::in_R() {
-    return in("R");
-}
-
-pdsp::Patchable & np::dynamics::Brickwall::out_L() {
-    return out("L");
-}
-
-pdsp::Patchable & np::dynamics::Brickwall::out_R() {
-    return out("R");
+pdsp::Patchable & np::dynamics::Brickwall::ch( size_t index ) {
+    pdsp::wrapChannelIndex( index );
+    switch( index ){
+        case 0: return submodule0; break;
+        case 1: return submodule1; break;
+    }
+    return submodule0;
 }

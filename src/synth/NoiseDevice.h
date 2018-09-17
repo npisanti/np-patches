@@ -21,8 +21,7 @@ public:
     pdsp::Patchable & in_cutoff();
     pdsp::Patchable & in_decimate();
 
-    pdsp::Patchable & out_L();
-    pdsp::Patchable & out_R();
+    pdsp::Patchable & ch( size_t index );
 
     ofParameterGroup & label( string name );
 
