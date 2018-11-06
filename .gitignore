@@ -26,6 +26,10 @@ docs/tagfile.xml
 # IDE
 #########################
 
+# Visual Studio Code
+.vscode/
+*.code-workspace
+
 # XCode
 *.pbxuser
 *.perspective
