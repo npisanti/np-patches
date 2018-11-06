@@ -1,0 +1,39 @@
+<analyzer>
+	<channel_1_band_A>
+		<band_input_gain>0</band_input_gain>
+		<band_low>43</band_low>
+		<band_lo_hz>97.9989</band_lo_hz>
+		<band_hi>55.5102</band_hi>
+		<band_hi_hz>201.86</band_hi_hz>
+		<peak_env_attack_ms>5</peak_env_attack_ms>
+		<peak_env_release_ms>20</peak_env_release_ms>
+	</channel_1_band_A>
+	<channel_1_band_B>
+		<band_input_gain>0</band_input_gain>
+		<band_low>67.9388</band_low>
+		<band_lo_hz>413.839</band_lo_hz>
+		<band_hi>136</band_hi>
+		<band_hi_hz>21096.2</band_hi_hz>
+		<peak_env_attack_ms>5</peak_env_attack_ms>
+		<peak_env_release_ms>20</peak_env_release_ms>
+	</channel_1_band_B>
+	<channel_2_band_A>
+		<band_input_gain>0</band_input_gain>
+		<band_low>43</band_low>
+		<band_lo_hz>97.9989</band_lo_hz>
+		<band_hi>64.3878</band_hi>
+		<band_hi_hz>337.094</band_hi_hz>
+		<peak_env_attack_ms>5</peak_env_attack_ms>
+		<peak_env_release_ms>20</peak_env_release_ms>
+	</channel_2_band_A>
+	<channel_2_band_B>
+		<band_input_gain>0</band_input_gain>
+		<band_low>55.5102</band_low>
+		<band_lo_hz>201.86</band_lo_hz>
+		<band_hi>136</band_hi>
+		<band_hi_hz>21096.2</band_hi_hz>
+		<peak_env_attack_ms>5</peak_env_attack_ms>
+		<peak_env_release_ms>20</peak_env_release_ms>
+	</channel_2_band_B>
+<analyzer/>
+</analyzer>

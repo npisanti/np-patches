@@ -96,7 +96,7 @@ void np::synth::QuickSampler::loadButtonCall( bool & value ) {
     if(value){
 
         float fvalue = faderControl.get();
-        faderControl.setv(0.0f);
+        faderControl.set(0.0f);
         
         //Open the Open File Dialog
         ofFileDialogResult openFileResult= ofSystemLoadDialog("select an audio sample"); 
@@ -117,7 +117,7 @@ void np::synth::QuickSampler::loadButtonCall( bool & value ) {
 
         loadButton = false;
         
-        faderControl.setv(fvalue);
+        faderControl.set(fvalue);
     }
 }
 

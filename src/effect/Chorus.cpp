@@ -10,7 +10,7 @@ void np::effect::Chorus::patch(){
     depthControl >> chorus.in_depth();
     
     parameters.setName( "chorus" );
-    parameters.add(speedControl.set("cho speed (hz)", 0.25f, 0.25f, 8.25f));
+    parameters.add(speedControl.set("cho speed (hz)", 0.25f, 0.25f, 3.0f));
     parameters.add(depthControl.set("cho depth (ms)", 3.5f, 1.0f, 8.0f));
 }
 

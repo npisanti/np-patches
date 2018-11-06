@@ -53,7 +53,7 @@ float np::modulator::ClockedLFO::meter_output() const {
 }
 
 void np::modulator::ClockedLFO::recalculateDivision( int & value ) {
-    divisionControl.setv( static_cast<float>(divide) / static_cast<float> (pulse) );
+    divisionControl.set( static_cast<float>(divide) / static_cast<float> (pulse) );
 }
 
 

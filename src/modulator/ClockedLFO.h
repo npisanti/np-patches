@@ -35,7 +35,7 @@ private:
     pdsp::Parameter     modeControl;
 
     pdsp::Switch        lfoSwitch;
-    pdsp::Parameter     divisionControl;
+    pdsp::ValueControl  divisionControl;
     
     pdsp::ParameterAmp multiplier;
     

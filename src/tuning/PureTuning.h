@@ -26,7 +26,7 @@ private:
             double bp = (double) (*basePitch);
             double freq = pdsp::p2f(bp);
             freq *= ratio;
-            pitch.setv( pdsp::f2p(freq) );
+            pitch.set( pdsp::f2p(freq) );
         }
         
         void setBasePitch( ofParameter<int> & bp) {
@@ -37,7 +37,7 @@ private:
         ofParameter<int>    numerator;
         ofParameter<int>    denominator;
         ofParameter<int>    octave;
-        pdsp::Parameter     pitch;
+        pdsp::ValueControl  pitch;
         
     };
 

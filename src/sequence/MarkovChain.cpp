@@ -58,7 +58,7 @@ np::sequence::MarkovChain::MarkovChain(){
 
             if( counter()==0 ) step=0;
             
-            if( regenerate || (autogenerate && (counter()==0 || counter()>=(repeat*states.size()) ) ) ){
+            if( regenerate || (autogenerate && (counter()==0 || counter()>=int(repeat*states.size()) ) ) ){
                 step = 0;
                 div = division;
                 length = 1.0 / (double)division;  
@@ -162,7 +162,7 @@ void np::sequence::MarkovChain::loadFile( ) {
         }
     }
     
-    int write = index+1;
+    size_t write = index+1;
     if(write>=chains.size()){ write = 0; }
     chains[write].first = 0;
     chains[write].messages.clear();

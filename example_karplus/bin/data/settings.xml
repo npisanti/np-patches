@@ -1,0 +1,17 @@
+<karplus_synth_gui>
+	<karplus_synth>
+		<master_dB>-12</master_dB>
+		<pluck_time>30</pluck_time>
+		<feedback>0.99</feedback>
+		<damping>0</damping>
+		<filter_mode>0</filter_mode>
+		<filter_cutoff>136</filter_cutoff>
+		<filter_reso>0</filter_reso>
+		<filter_mod>0</filter_mod>
+		<mod_decay>30</mod_decay>
+		<mod_dyn>0.5</mod_dyn>
+		<cho_speed__hz_>0.25</cho_speed__hz_>
+		<cho_depth__ms_>3.5</cho_depth__ms_>
+	</karplus_synth>
+<karplus_synth_gui/>
+</karplus_synth_gui>

@@ -35,3 +35,6 @@
 #include "tuning/PureTuning.h"
 
 #include "util/SampleControl.h"
+
+#include "components/SimpleAnalyzer.h"
+#include "components/Analyzer.h"
