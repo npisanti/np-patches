@@ -58,7 +58,7 @@ public:
 
     ofParameterGroup & label (std::string name );
 
-private: // --------------------------------------------------
+    // ------- parameters ------------------------------------
 
     pdsp::ParameterGain gain;
 

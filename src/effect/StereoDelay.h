@@ -18,6 +18,8 @@ public:
     pdsp::ParameterAmp  rDelayTimeControl;
     pdsp::Parameter     lFeedbackControl;
     pdsp::Parameter     rFeedbackControl;
+    pdsp::ParameterAmp      modAmt;
+    pdsp::Parameter         speed;
 
     pdsp::Patchable & ch( size_t index );
 
@@ -30,8 +32,6 @@ private:
 
     pdsp::LFOPhazor         phazor;
     pdsp::CheapTri          LFO;
-    pdsp::ParameterAmp      modAmt;
-    pdsp::Parameter         speed;
 
     pdsp::Delay delay0;
     pdsp::Delay delay1;
