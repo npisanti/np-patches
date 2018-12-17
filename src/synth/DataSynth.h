@@ -31,13 +31,16 @@ public:
         pdsp::PatchNode     voiceTrigger;
         
         pdsp::DataOscillator    oscillator;
-        pdsp::VAFilter          filter;
         pdsp::Amp               voiceAmp;
+        pdsp::OnePole           filter;
 
         pdsp::OnePole       leakDC;
         pdsp::ADSR          envelope;    
-        pdsp::Amp           envToTable;
-        pdsp::Amp           envToFilter;  
+        
+        pdsp::Amp               driftAmt;
+        pdsp::LFOPhazor         phazorFree;
+        pdsp::TriggeredRandom   rnd;
+        pdsp::OnePole           randomSlew;
     }; // end voice class -----------------------------
 
 
@@ -56,19 +59,21 @@ public:
     ofParameterGroup & label (std::string name );
 
 private: // --------------------------------------------------
-
     pdsp::ParameterGain gain;
 
-    pdsp::Parameter     cutoff_ctrl;
-    pdsp::Parameter     reso_ctrl;
-    pdsp::Parameter     filter_mode_ctrl;
-
+    ofParameter<float>  smooth;
     pdsp::Parameter     env_attack_ctrl;
     pdsp::Parameter     env_decay_ctrl;
     pdsp::Parameter     env_sustain_ctrl;
     pdsp::Parameter     env_release_ctrl;
-    pdsp::Parameter     env_filter_ctrl;
-
+    pdsp::Parameter     cutoff_ctrl;
+    
+    pdsp::Parameter     drift;
+    
+    pdsp::PitchToFreq   cutoff_p2f;
+    
+    void smoothCall( float & value );
+		
 };
 
 }} // end namespaces

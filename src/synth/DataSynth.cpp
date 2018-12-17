@@ -23,23 +23,21 @@ ofParameterGroup & np::synth::DataSynth::setup(int numVoices, float spread, std:
         }
     }
     
+    cutoff_ctrl >> cutoff_p2f;
     
     // CONTROLS ----------------------------------------------------------------
     parameters.setName( name );
 
-    parameters.add(filter_mode_ctrl.set("filter mode", 0, 0, 5) );
-    parameters.add(cutoff_ctrl.set("filter cutoff", 120, 10, 120));
-    parameters.add(reso_ctrl.set("filter reso", 0.0f, 0.0f, 1.0f) );
- 
-    cutoff_ctrl.enableSmoothing(200.0f);
-    
-    parameters.add(env_attack_ctrl.set( "env attack", 50, 5, 4000) );
-    parameters.add(env_decay_ctrl.set(  "env decay", 400, 5, 1200) );
-    parameters.add(env_sustain_ctrl.set("env sustain", 1.0f, 0.0f, 1.0f) );
-    parameters.add(env_release_ctrl.set("env release", 900, 5, 5000));    
-    parameters.add( env_filter_ctrl.set("env to filter", 30, 0, 60) );    
-
     parameters.add(gain.set("gain", -9, -48, 12));
+    smooth.addListener(this, &np::synth::DataSynth::smoothCall );
+    parameters.add( smooth.set("wave smoothing", 0.4f, 0.0f, 0.95f) );
+    parameters.add( cutoff_ctrl.set("filter cutoff", 136, 10, 136) ); 
+    parameters.add( env_attack_ctrl.set( "env attack", 50, 5, 4000) );
+    parameters.add( env_decay_ctrl.set(  "env decay", 400, 5, 1200) );
+    parameters.add( env_sustain_ctrl.set("env sustain", 1.0f, 0.0f, 1.0f) );
+    parameters.add( env_release_ctrl.set("env release", 900, 5, 5000));    
+    parameters.add( drift.set("drift", 0.05f, 0.0f, 1.0f) );   
+
     gain.enableSmoothing(50.f);
     // ------------------------------------------------------------------------
     
@@ -65,22 +63,23 @@ void np::synth::DataSynth::Voice::setup( DataSynth & m ){
     // we filter the frequency below 20 hz (not audible) just to remove DC offsets
     leakDC.set(20.0f);
     // SIGNAL PATH
-    oscillator >> filter >> leakDC.out_hpf() >> voiceAmp;
+    oscillator >> leakDC.out_hpf() >> filter.out_lpf() >> voiceAmp;
+    
+    m.cutoff_p2f >> filter.in_freq();
     
     // MODULATIONS AND CONTROL
     voiceTrigger >> envelope >> voiceAmp.in_mod();
-                    envelope >> envToFilter >> filter.in_pitch();
-                              m.cutoff_ctrl >> filter.in_pitch();
-                                m.reso_ctrl >> filter.in_reso();
-                         m.filter_mode_ctrl >> filter.in_mode();
 
+    m.env_attack_ctrl  >> envelope.in_attack();
+    m.env_decay_ctrl   >> envelope.in_decay();
+    m.env_sustain_ctrl >> envelope.in_sustain();
+    m.env_release_ctrl >> envelope.in_release();
 
-        m.env_attack_ctrl  >> envelope.in_attack();
-        m.env_decay_ctrl   >> envelope.in_decay();
-        m.env_sustain_ctrl >> envelope.in_sustain();
-        m.env_release_ctrl >> envelope.in_release();
-
-        m.env_filter_ctrl >> envToFilter.in_mod();
+    0.2f    >> phazorFree;
+    0.05f  >> randomSlew.in_freq();
+                                       m.drift >> driftAmt.in_mod();        
+    phazorFree.out_trig() >> rnd >> randomSlew >> driftAmt;
+                                                  driftAmt >> oscillator.in_pitch();
 }
 
 float np::synth::DataSynth::Voice::meter_mod_env() const{
@@ -103,4 +102,8 @@ pdsp::Patchable& np::synth::DataSynth::ch( size_t index ){
 ofParameterGroup & np::synth::DataSynth::label (std::string name ){
     parameters.setName( name );
     return parameters;
+}
+
+void np::synth::DataSynth::smoothCall( float & value ) {
+	datatable.smoothing( value  );
 }
