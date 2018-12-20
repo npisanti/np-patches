@@ -135,7 +135,16 @@ void np::sequence::Tracker::loadFile() {
                             parsedChance += (char) line[l];
                         }else{
                             parsedValue += (char) line[l];
-                            if(!bParsingValue) bParsingValue = true;                            
+                            if(!bParsingValue) bParsingValue = true;
+                        }
+                    break;
+                    
+                    case 'o': 
+                        if( bParsingChance ){
+                            parsedChance += '0';
+                        }else{
+                            parsedValue += '0';
+                            if(!bParsingValue) bParsingValue = true;
                         }
                     break;
                     
@@ -149,7 +158,7 @@ void np::sequence::Tracker::loadFile() {
                         }
                     break;
                     
-                    case '-': case 'o': case '~': case '|': case '_': 
+                    case '-': case '~': case '|': case '_': 
                         values[write][i][o].value = -1.0f;
                         o++;
                     break;
