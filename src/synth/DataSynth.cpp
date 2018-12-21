@@ -32,7 +32,7 @@ ofParameterGroup & np::synth::DataSynth::setup(int numVoices, float spread, std:
     smooth.addListener(this, &np::synth::DataSynth::smoothCall );
     parameters.add( smooth.set("wave smoothing", 0.4f, 0.0f, 0.95f) );
     parameters.add( cutoff_ctrl.set("filter cutoff", 136, 10, 136) ); 
-    parameters.add( env_attack_ctrl.set( "env attack", 50, 5, 4000) );
+    parameters.add( env_attack_ctrl.set( "env attack", 50, 0, 4000) );
     parameters.add( env_decay_ctrl.set(  "env decay", 400, 5, 1200) );
     parameters.add( env_sustain_ctrl.set("env sustain", 1.0f, 0.0f, 1.0f) );
     parameters.add( env_release_ctrl.set("env release", 900, 5, 5000));    
