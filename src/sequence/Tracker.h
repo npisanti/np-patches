@@ -24,6 +24,10 @@ public:
     Tracker(  const Tracker & other ){ ofLogError()<<"do not copy around sequence::Tracker"; }
 
     void load( std::string filepath, bool autoreload=true );
+    void setMaxSteps( int max );
+    ofParameterGroup & label( std::string name ){ parameters.setName( name); return parameters; }
+
+
 
     ofParameterGroup parameters;
         ofParameter<int>    division;

@@ -185,3 +185,8 @@ void np::sequence::Tracker::loadFile() {
     index = write; // everything done, update the index
     bLoaded = true;
 }
+
+void np::sequence::Tracker::setMaxSteps( int max ){
+    steps.set("steps", steps, 2, max );
+    start.set("step start", start, 0, max );
+}
