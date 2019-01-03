@@ -20,6 +20,8 @@ public:
     pdsp::Parameter     rFeedbackControl;
     pdsp::ParameterAmp      modAmt;
     pdsp::Parameter         speed;
+    pdsp::ParameterGain inputFader;
+    pdsp::ParameterGain outputFader;
 
     pdsp::Patchable & ch( size_t index );
 
@@ -40,8 +42,7 @@ private:
 
     pdsp::Parameter dampingControl;
     
-    pdsp::ParameterGain inputFader;
-    pdsp::ParameterGain outputFader;
+
     
 };
 
