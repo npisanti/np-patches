@@ -1,8 +1,10 @@
 
 #include "StereoDelay.h"
 
-
 void np::effect::StereoDelay::patch() {
+    
+    delay0.setMaxTime(3000.0f);
+    delay1.setMaxTime(3000.0f);
     
     channels.resize(2);
     
@@ -15,12 +17,11 @@ void np::effect::StereoDelay::patch() {
     channels[1].input >> inputFader.ch(1) >> delay1 >> outputFader.ch(1) >> channels[1].output;
     
     speed >> phazor.in_freq() >> LFO >> modAmt;
-    
+  
                                     modAmt >> delay0.in_time();
     time * (1.f/16.f) >> lDelayTimeControl >> delay0.in_time();
                             modAmt * -1.0f >> delay1.in_time();
     time * (1.f/16.f) >> rDelayTimeControl >> delay1.in_time();
-
 
     lFeedbackControl >> delay0.in_feedback();
     rFeedbackControl >> delay1.in_feedback();
@@ -44,11 +45,11 @@ void np::effect::StereoDelay::patch() {
 
     inputFader.enableSmoothing(50.f);
     outputFader.enableSmoothing(50.f);
-    lDelayTimeControl.enableSmoothing(450.f);
-    lDelayTimeControl.enableSmoothing(450.f);
+    lDelayTimeControl.enableSmoothing( 500.f );
+    lDelayTimeControl.enableSmoothing( 500.f );
     lFeedbackControl.enableSmoothing(50.f);
     rFeedbackControl.enableSmoothing(50.f);
-
+    modAmt.enableSmoothing( 50.f );
 }
 
 
