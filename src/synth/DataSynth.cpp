@@ -82,7 +82,7 @@ void np::synth::DataSynth::Voice::setup( DataSynth & m ){
                                                   driftAmt >> oscillator.in_pitch();
 }
 
-float np::synth::DataSynth::Voice::meter_mod_env() const{
+float np::synth::DataSynth::Voice::meter_env() const{
     return envelope.meter_output();
 }
 

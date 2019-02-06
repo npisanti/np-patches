@@ -22,7 +22,7 @@ public:
         pdsp::Patchable& in_trig();
         pdsp::Patchable& in_pitch();
         
-        float meter_mod_env() const;
+        float meter_env() const;
         float meter_pitch() const;
 
     private:
