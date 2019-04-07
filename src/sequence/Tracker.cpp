@@ -1,5 +1,6 @@
 
 #include "Tracker.h"
+#include "ofMain.h"
 
 
 np::sequence::Tracker::Tracker() {

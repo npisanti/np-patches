@@ -1,8 +1,9 @@
 
 #pragma once
 
-#include "ofMain.h"
-#include "ofxPDSP.h"
+#include "ofParameter.h"
+#include "ofParameterGroup.h"
+#include "sequencer/Sequence.h"
 
 #if !defined(__ANDROID__) && !defined(TARGET_IPHONE_SIMULATOR) && !defined(TARGET_OS_IPHONE)
 #include "ofxWatchFile.h"

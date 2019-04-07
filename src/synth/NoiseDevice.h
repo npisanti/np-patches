@@ -1,8 +1,15 @@
 
 #pragma once
 
-#include "ofMain.h"
-#include "ofxPDSP.h"
+#include "ofParameterGroup.h"
+#include "pdspCore.h"
+#include "envelopes/AHR.h"
+#include "modules/filters/VAFilter.h"
+#include "random/TriggeredRandom.h"
+#include "ofx/Parameter.h"
+#include "ofx/ParameterAmp.h"
+#include "utility/DBtoLin.h"
+#include "modules/sources/BitNoise.h"
 
 namespace np { namespace synth {
     

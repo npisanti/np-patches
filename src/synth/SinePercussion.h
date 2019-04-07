@@ -1,8 +1,13 @@
 
 #pragma once
 
-#include "ofMain.h"
-#include "ofxPDSP.h"
+#include "ofParameterGroup.h"
+#include "pdspCore.h"
+#include "envelopes/AHR.h"
+#include "ofx/Parameter.h"
+#include "ofx/ParameterAmp.h"
+#include "utility/DBtoLin.h"
+#include "modules/oscillators/FMOperator.h"
 
 namespace np { namespace synth {
 
