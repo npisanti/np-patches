@@ -4,10 +4,6 @@
 #include "ofMain.h"
 #include "ofxPDSP.h"
 
-#if !defined(__ANDROID__) && !defined(TARGET_IPHONE_SIMULATOR) && !defined(TARGET_OS_IPHONE)
-#include "ofxWatchFile.h"
-#endif 
-
 namespace np { namespace sequence  {
     
 class MarkovChain : public pdsp::Sequence {
@@ -41,17 +37,23 @@ public:
     const int               getSize() const;
 
     void draw ( int x, int y ); // this is still not thread-safe, but it works well on desktop
-
+    
+    void setInterval( float time ){ interval=time; }
+    
 private:
     void loadFile();
 
 #if !defined(__ANDROID__) && !defined(TARGET_IPHONE_SIMULATOR) && !defined(TARGET_OS_IPHONE)
-    ofxWatchFile watcher;
-    void onFileChange( ofFile &file ){
-        loadFile();
-    }
+    
+    void watch();
+
+    time_t writeTimestamp = 0.0f;
+    float timePassed = 0.0f;;
+    
+    void checkFile(ofEventArgs &args);
 #endif 
-   
+
+    float interval = 0.05f;   
     std::string path;
    
     double div;

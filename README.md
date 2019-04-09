@@ -1,7 +1,8 @@
 np-patches
 =====================================
 
-This is my personal repository a set of high level classes that builds upon [ofxPDSP](https://github.com/npisanti/ofxPDSP).  [ofxWatchFile](https://github.com/nariakiiwatani/ofxWatchFile.git) is also required for some classes to work, but not on Android and iOS. All the classes have a `ofParameterGroup parameters` member that can be easily added to a gui for tweaking things faster in realtime. Some `np::sequence` loads text file in realtime and are updated when the text file changes.
+This is my personal repository a set of high level classes that builds upon [ofxPDSP](https://github.com/npisanti/ofxPDSP).  
+All the classes have a `ofParameterGroup parameters` member that can be easily added to a gui for tweaking things faster in realtime. Some `np::sequence` loads text file in realtime and are updated when the text file changes ( feature disabled in Android and iOS ).
 
 Included `np::sequence`:
 - `Euclidean` : euclidean rhythm generator

@@ -5,10 +5,6 @@
 #include "ofParameterGroup.h"
 #include "sequencer/Sequence.h"
 
-#if !defined(__ANDROID__) && !defined(TARGET_IPHONE_SIMULATOR) && !defined(TARGET_OS_IPHONE)
-#include "ofxWatchFile.h"
-#endif 
-
 
 namespace np { namespace sequence {
     
@@ -28,8 +24,8 @@ public:
     void setMaxSteps( int max );
     ofParameterGroup & label( std::string name ){ parameters.setName( name); return parameters; }
 
-
-
+    void setInterval( float time ){ interval=time; }
+    
     ofParameterGroup parameters;
         ofParameter<int>    division;
         ofParameter<int>    steps;
@@ -42,12 +38,16 @@ private:
 
     void loadFile();
 
-
+    float interval = 0.05f;   
+    
 #if !defined(__ANDROID__) && !defined(TARGET_IPHONE_SIMULATOR) && !defined(TARGET_OS_IPHONE)
-    ofxWatchFile watcher;
-    void onFileChange( ofFile &file ){
-        loadFile();
-    }
+    
+    void watch();
+
+    time_t writeTimestamp = 0.0f;
+    float timePassed = 0.0f;;
+    
+    void checkFile(ofEventArgs &args);
 #endif
 
     std::string path;

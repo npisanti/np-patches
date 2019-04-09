@@ -4,6 +4,9 @@
 
 #include "MarkovChain.h"
 
+#if !defined(__ANDROID__) && !defined(TARGET_IPHONE_SIMULATOR) && !defined(TARGET_OS_IPHONE)
+    #include <boost/filesystem.hpp>
+#endif 
 
 np::sequence::MarkovChain::MarkovChain(){
     
@@ -121,17 +124,17 @@ np::sequence::MarkovChain::MarkovChain(){
 
 
 void np::sequence::MarkovChain::load ( std::string filepath, bool autoreload ) {
+    
     path = filepath;
     auto v = ofSplitString(path, "/" );
     string name = v[v.size()-1];
     
     parameters.setName(name);
     pdsp::Sequence::label = name;
+    
 #if !defined(__ANDROID__) && !defined(TARGET_IPHONE_SIMULATOR) && !defined(TARGET_OS_IPHONE)
     if ( autoreload ){
-        watcher.setCheckIntervalTimef( 0.03f );
-        watcher.addListener(this, &MarkovChain::onFileChange);
-        watcher.setTargetPath( filepath );        
+        watch();
     }else{
         loadFile();
     }
@@ -140,9 +143,36 @@ void np::sequence::MarkovChain::load ( std::string filepath, bool autoreload ) {
 #endif
 }
 
+
+const int np::sequence::MarkovChain::getStep() const {
+    return meter_step;
+}
+
+const int np::sequence::MarkovChain::getState() const {
+    return meter_state;
+}
+
+const std::vector<int> np::sequence::MarkovChain::getStates() const {
+    return states;
+}
+
+const int np::sequence::MarkovChain::getSize() const {
+    return states.size();
+}
+
+void np::sequence::MarkovChain::draw ( int x, int y ) {
+    std::string theorem = parameters.getName();
+    theorem +=": ";
+    for (size_t i=0; i<states.size(); i++){
+        theorem += ofToString( states[i] );
+    }
+    ofDrawBitmapString(theorem, x, y );   
+}
+
+
 // -------------------- file loading routines ------------------------
 
-void np::sequence::MarkovChain::loadFile( ) {    
+void np::sequence::MarkovChain::loadFile() {    
 	
 	ofFile file( path );
 	
@@ -276,28 +306,6 @@ void np::sequence::MarkovChain::loadFile( ) {
             }
         }
     }    
-    
-    /*
-    // loading test code 
-    std::cout<<"loaded markov chain file\n";
-    std::cout<<"first:"<<chains[write].first<<"\n";
-    std::cout<<"nodes:"<<chains[write].nodes<<"\n";
-    std::cout<<"messages -------------\n";
-    for( auto & v : chains[write].messages ){
-        for( auto & m : v ){
-            std::cout<<m<<" ";
-        }
-        std::cout<<"\n";
-    }
-    std::cout<<"chances -------------\n";
-    for( auto & v : chains[write].chances ){
-        for( auto & c : v ){
-            std::cout<<c<<" ";
-        }
-        std::cout<<"\n";
-    }
-    std::cout<<"------------------\n";
-    */
 
     bLoaded = true;
 
@@ -305,29 +313,24 @@ void np::sequence::MarkovChain::loadFile( ) {
 }
 
 
-
-const int np::sequence::MarkovChain::getStep() const {
-    return meter_step;
-}
-
-const int np::sequence::MarkovChain::getState() const {
-    return meter_state;
-}
-
-const std::vector<int> np::sequence::MarkovChain::getStates() const {
-    return states;
-}
-
-const int np::sequence::MarkovChain::getSize() const {
-    return states.size();
-}
-
-void np::sequence::MarkovChain::draw ( int x, int y ) {
-    std::string theorem = parameters.getName();
-    theorem +=": ";
-    for (size_t i=0; i<states.size(); i++){
-        theorem += ofToString( states[i] );
+void np::sequence::MarkovChain::watch(){
+    ofFile file( path );
+    
+    if( file.exists() ){
+        ofAddListener( ofEvents().update, this, &np::sequence::MarkovChain::checkFile );
+        writeTimestamp = boost::filesystem::last_write_time( path );    
+        loadFile();
     }
-    ofDrawBitmapString(theorem, x, y );   
 }
 
+void np::sequence::MarkovChain::checkFile(ofEventArgs &args){
+    timePassed += ofGetLastFrameTime();
+    if( timePassed > interval ){
+        time_t checkTimestamp = boost::filesystem::last_write_time( path );
+        if( checkTimestamp != writeTimestamp){
+            writeTimestamp = checkTimestamp;
+            loadFile();
+            ofLogNotice() << "["<<path<<"] file reloaded";
+        }
+    }
+}

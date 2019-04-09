@@ -2,6 +2,9 @@
 #include "Tracker.h"
 #include "ofMain.h"
 
+#if !defined(__ANDROID__) && !defined(TARGET_IPHONE_SIMULATOR) && !defined(TARGET_OS_IPHONE)
+    #include <boost/filesystem.hpp>
+#endif 
 
 np::sequence::Tracker::Tracker() {
     
@@ -57,7 +60,11 @@ np::sequence::Tracker::Tracker() {
             regenerate = false;
         }
     };
-    
+}
+
+void np::sequence::Tracker::setMaxSteps( int max ){
+    steps.set("steps", steps, 2, max );
+    start.set("step start", start, 0, max );
 }
 
 void np::sequence::Tracker::load( std::string filepath, bool autoreload ) {
@@ -67,17 +74,17 @@ void np::sequence::Tracker::load( std::string filepath, bool autoreload ) {
     
     parameters.setName(name);
     pdsp::Sequence::label = name;
+    
 #if !defined(__ANDROID__) && !defined(TARGET_IPHONE_SIMULATOR) && !defined(TARGET_OS_IPHONE)
-    if( autoreload ){
-        watcher.setCheckIntervalTimef( 0.03f );
-        watcher.addListener(this, &Tracker::onFileChange);
-        watcher.setTargetPath( filepath );        
+    if ( autoreload ){
+        watch();
     }else{
-        loadFile();        
+        loadFile();
     }
 #else
     loadFile();
 #endif
+
 }
 
 void np::sequence::Tracker::loadFile() {
@@ -187,7 +194,27 @@ void np::sequence::Tracker::loadFile() {
     bLoaded = true;
 }
 
-void np::sequence::Tracker::setMaxSteps( int max ){
-    steps.set("steps", steps, 2, max );
-    start.set("step start", start, 0, max );
+
+void np::sequence::Tracker::watch(){
+    ofFile file( path );
+    
+    if( file.exists() ){
+        ofAddListener( ofEvents().update, this, &np::sequence::Tracker::checkFile );
+        writeTimestamp = boost::filesystem::last_write_time( path );    
+        loadFile();
+    }
 }
+
+void np::sequence::Tracker::checkFile(ofEventArgs &args){
+    timePassed += ofGetLastFrameTime();
+    if( timePassed > interval ){
+        time_t checkTimestamp = boost::filesystem::last_write_time( path );
+        if( checkTimestamp != writeTimestamp){
+            writeTimestamp = checkTimestamp;
+            loadFile();
+            ofLogNotice() << "["<<path<<"] file reloaded";
+        }
+    }
+}
+
+
