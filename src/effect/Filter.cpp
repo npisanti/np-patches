@@ -13,6 +13,7 @@ void np::effect::Filter::patch(){
     
     cutoffControl    >> filter.in_cutoff();
     resoControl      >> filter.in_reso();
+    modeControl      >> filter.in_mode();
     
     parameters.setName( "filter" );
     parameters.add( cutoffControl.set( "cutoff", 136, 20, 136) );
