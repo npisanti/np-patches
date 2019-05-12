@@ -2,7 +2,7 @@
 #include "Tracker.h"
 #include "ofMain.h"
 
-#if !defined(__ANDROID__) && !defined(TARGET_IPHONE_SIMULATOR) && !defined(TARGET_OS_IPHONE)
+#if defined(__linux__) || defined(OF_TARGET_OSX) || defined(OF_TARGET_MINGW) || defined(OF_TARGET_WINVS)
     #include <boost/filesystem.hpp>
 #endif 
 
@@ -195,6 +195,8 @@ void np::sequence::Tracker::loadFile() {
 }
 
 
+#if defined(__linux__) || defined(OF_TARGET_OSX) || defined(OF_TARGET_MINGW) || defined(OF_TARGET_WINVS)
+
 void np::sequence::Tracker::watch(){
     ofFile file( path );
     
@@ -217,4 +219,5 @@ void np::sequence::Tracker::checkFile(ofEventArgs &args){
     }
 }
 
+#endif
 

@@ -4,7 +4,7 @@
 
 #include "MarkovChain.h"
 
-#if !defined(__ANDROID__) && !defined(TARGET_IPHONE_SIMULATOR) && !defined(TARGET_OS_IPHONE)
+#if defined(__linux__) || defined(OF_TARGET_OSX) || defined(OF_TARGET_MINGW) || defined(OF_TARGET_WINVS)
     #include <boost/filesystem.hpp>
 #endif 
 
@@ -312,6 +312,7 @@ void np::sequence::MarkovChain::loadFile() {
     index = write;
 }
 
+#if defined(__linux__) || defined(OF_TARGET_OSX) || defined(OF_TARGET_MINGW) || defined(OF_TARGET_WINVS)
 
 void np::sequence::MarkovChain::watch(){
     ofFile file( path );
@@ -334,3 +335,5 @@ void np::sequence::MarkovChain::checkFile(ofEventArgs &args){
         }
     }
 }
+
+#endif
