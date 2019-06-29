@@ -38,7 +38,7 @@ private:
     
 public: // ---------------------- public API ----------------------------------    
     
-    void setup ( int numVoices );
+    void setup ( int numVoices, float spread = 0.0f );
     
     pdsp::Patchable & in_trig( int voice );
     pdsp::Patchable & in_pitch( int voice );
@@ -53,10 +53,10 @@ public: // ---------------------- public API ----------------------------------
 
     ofParameterGroup & label( std::string name );
     
+    std::vector<Voice>      voices;
+
 private: // -------------------------------------------------------------------  
 
-    std::vector<Voice>      voices;
-    
     pdsp::Amp               ampL;
     pdsp::Amp               ampR;
     

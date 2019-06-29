@@ -39,14 +39,20 @@ void np::synth::KarplusStrong::Voice::patch() {
                                         
 }
 
-void np::synth::KarplusStrong::setup ( int numVoices ) {
+void np::synth::KarplusStrong::setup ( int numVoices, float spread ) {
     
     voices.resize( numVoices );
     
     for( size_t i=0; i<voices.size(); ++i ){
         // connect each voice to chorus
-        voices[i] >> ampL;
-        voices[i] >> ampR;
+        if( spread > 0.0f ){                    
+            voices[i] * pdsp::panL( pdsp::spread(i, voices.size(), spread ) ) >> ampL;
+            voices[i] * pdsp::panR( pdsp::spread(i, voices.size(), spread ) ) >> ampR;
+        }else{        
+            voices[i] >> ampL;
+            voices[i] >> ampR;            
+        }
+
         fbControl       >> voices[i].in("fb");
         dampingControl  >> voices[i].in("damping");
         pluckAttackControl >> voices[i].in("pluck_attack");
