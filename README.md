@@ -46,4 +46,11 @@ Included `np::dynamics` :
 DISCLAIMER:    
 I will treat everything in the `np` namespace as in constant alpha state, the code should be bug-free but the API will be subject to change, so if you want to use one of the classes just fork this repo or copy the .h and .cpp files you need.
 
+Donate
+------------ 
+I support you, you support me!    
+If you find this code useful, consider [fueling me with coffee](https://ko-fi.com/npisanti)!
+
+License 
+------------
 Nicola Pisanti MIT License 2018.
