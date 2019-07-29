@@ -19,6 +19,9 @@ public:
     Voice(const Voice & other) { patch(); }
 
     void patch();
+    
+    float meter_pluck() const { return pluckEnv.meter_output(); }
+    
 private:
     pdsp::PatchNode         fbBoundaries;
     pdsp::PatchNode         triggers;
