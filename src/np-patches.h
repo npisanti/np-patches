@@ -3,6 +3,7 @@
 
 #include "dynamics/Brickwall.h"
 #include "dynamics/Compressor.h"
+#include "dynamics/SoftClip.h"
 
 #include "effect/StereoDelay.h"
 #include "effect/BasiVerb.h"
