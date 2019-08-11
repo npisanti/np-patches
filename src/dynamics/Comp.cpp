@@ -2,7 +2,7 @@
 // Compressor.cpp
 // Nicola Pisanti, MIT License, 2018
 
-#include "Compressor.h"
+#include "Comp.h"
 
 np::dynamics::Compressor::Submodule::Submodule(){
     addModuleInput("signal", input );

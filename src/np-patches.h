@@ -2,7 +2,7 @@
 #pragma once
 
 #include "dynamics/Brickwall.h"
-#include "dynamics/Compressor.h"
+#include "dynamics/Comp.h"
 #include "dynamics/SoftClip.h"
 
 #include "effect/StereoDelay.h"
