@@ -35,6 +35,11 @@ private:
     pdsp::VAFilter          filter;
 
     pdsp::CombFilter        comb;        
+            
+    pdsp::Amp               driftAmt;
+    pdsp::LFOPhazor         phazorFree;
+    pdsp::TriggeredRandom   rnd;
+    pdsp::OnePole           randomSlew;
 };    
 
 
@@ -78,6 +83,8 @@ private: // -------------------------------------------------------------------
     pdsp::Parameter     filterModControl;
     pdsp::Parameter     filterModDecayControl;
     pdsp::Parameter     filterModVeloControl;
+    
+    pdsp::Parameter     drift;
 
 };
 

@@ -19,6 +19,7 @@ void np::synth::KarplusStrong::Voice::patch() {
     addModuleInput("filter_mod", filterEnvAmt.in_mod() );
     addModuleInput("mod_decay", filterEnv.in_release() );
     addModuleInput("mod_velo", filterEnv.in_velocity() );
+    addModuleInput("drift", driftAmt.in_mod() );
     addModuleOutput("signal", comb ); 
 
     fbBoundaries.enableBoundaries(0.0f, 1.0f);
@@ -35,7 +36,12 @@ void np::synth::KarplusStrong::Voice::patch() {
     triggers >> gateEnv;    
     triggers >>                           pluckEnv >> noiseAmp.in_mod();
                                     noise >> filter>> noiseAmp >> comb;
-    triggers >> filterEnv >> filterEnvAmt >> filter.in_cutoff();        
+    triggers >> filterEnv >> filterEnvAmt >> filter.in_cutoff();  
+    
+    0.2f    >> phazorFree;
+    0.05f  >> randomSlew.in_freq();   
+    phazorFree.out_trig() >> rnd >> randomSlew >> driftAmt;
+    driftAmt >> comb.in_pitch();
                                         
 }
 
@@ -63,7 +69,7 @@ void np::synth::KarplusStrong::setup ( int numVoices, float spread ) {
         filterModControl >> voices[i].in("filter_mod");
         filterModDecayControl >> voices[i].in("mod_decay");
         filterModVeloControl >> voices[i].in("mod_velo");
-        
+        drift >> voices[i].in("drift");
     }
         
     masterFader >> dBtoLin >> ampL.in_mod();
@@ -81,7 +87,8 @@ void np::synth::KarplusStrong::setup ( int numVoices, float spread ) {
     parameters.add(filterModControl.set( "filter mod", 0, 0, 120 ) );
     parameters.add(filterModDecayControl.set( "mod decay", 30, 1, 500 ) );
     parameters.add(filterModVeloControl.set( "mod dyn", 0.5f, 0.0f, 1.0f ) );
-    
+    parameters.add( drift.set("drift", 0.05f, 0.0f, 1.0f) );   
+
     
     masterFader.enableSmoothing(50.0f);
     fbControl.enableSmoothing(50.0f);
