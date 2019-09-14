@@ -79,44 +79,44 @@ np::sequence::MarkovChain::MarkovChain(){
             steplen = 1.0 / double(div);
             bars = length;
             begin();
-                    // markov chain code ------------------------
-                    if( step==counter() ){   // step is == counter only once until resetCount() is called  
-                        if(step == 0 ) { 
-                            state = chains[read].first;
-                        }else{
-                            // markov chain next
-                            float outcome = pdsp::urand();
-                            float target = 0.0f;
-                            int next = chains[read].nodes -1;
-                            
-                            for( size_t i=0; i<chains[read].nodes; ++i ){
-                                target += chains[read].chances[state][i];
-                                if( outcome < target ){
-                                    next = i;
-                                    break;
-                                }
-                            }
-                            state = next;
-                        }
-                        states[step] = state;
+                // markov chain code ------------------------
+                if( step==counter() ){   // step is == counter only once until resetCount() is called  
+                    if(step == 0 ) { 
+                        state = chains[read].first;
                     }else{
-                        state = states[step]; // we reiterate on already generated values
-                    }
-                     
-                    // --------------------------------------------
-                    
-                    if( run ){
-                        // write messages                    
-                        for(int i=0; i<(int)chains[read].messages[state].size(); ++i){
-                            message( 0.0, chains[read].messages[state][i], i );
-                        }
+                        // markov chain next
+                        float outcome = pdsp::urand();
+                        float target = 0.0f;
+                        int next = chains[read].nodes -1;
                         
-                        meter_step = step;
-                        meter_state = state;
+                        for( size_t i=0; i<chains[read].nodes; ++i ){
+                            target += chains[read].chances[state][i];
+                            if( outcome < target ){
+                                next = i;
+                                break;
+                            }
+                        }
+                        state = next;
+                    }
+                    states[step] = state;
+                }else{
+                    state = states[step]; // we reiterate on already generated values
+                }
+                 
+                // --------------------------------------------
+                if( run ){
+                    // write messages                    
+                    for(int i=0; i<(int)chains[read].messages[state].size(); ++i){
+                        out( i );
+                        bang( chains[read].messages[state][i] );
                     }
                     
-                    step++;
-                    if(step == (int)states.size()) step = 0;
+                    meter_step = step;
+                    meter_state = state;
+                }
+                
+                step++;
+                if(step == (int)states.size()) step = 0;
             end();
      };
     

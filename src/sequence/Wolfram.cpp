@@ -147,23 +147,27 @@ np::sequence::Wolfram::Wolfram(){
         
         // seqs array to messages ---------------------------
         bars = double(steps) / double(division);
-        steplen = 1.0 / double(division);
         
-        begin();       
+        double d = division;
+        
+        this->begin();       
             for(int x=0; x<steps; ++x){
                 
-                for(int out=0; out < activeOutsStored; ++out) {
-                    values[out] = stepbars[ (out*steps) + x ];
+                for(int o=0; o < activeOutsStored; ++o) {
+                    values[o] = stepbars[ (o*steps) + x ];
                 }
                 
-                for(int out=0; out < activeOutsStored; ++out){
-                    if(values[out]!=0.0f){
-                         message( (double)(x), values[out], out);               // gate on
-                         if(gateOff) message( (double)(x) + gate, 0.0f, out);   // gate off
+                for(int o=0; o < activeOutsStored; ++o){
+                    if(values[o]!=0.0f){
+                        this->delay( x / d ).out( o ).bang( values[o] );
+
+                        if(gateOff){ // gate on
+                            this->delay( (x+gate) / d ).out( o ).bang( values[o] );
+                        }
                     }
                 }
             }
-        end();
+        this->end();
     };    
     
 }

@@ -98,12 +98,13 @@ np::sequence::Euclidean::Euclidean(){
             shift( values, seqShift );
             
             bars = double(steps) / double(division);
-            steplen = 1.0 / double(division);
+
+            double d = division;
             begin();
                 for( size_t i=0; i<values.size(); ++i){
                     if(values[i]>0.0f){
-                        message( i, values[i], 0);
-                        message( i+g, 0.0f, 0);
+                        delay( i / d ).bang( values[i] );
+                        delay( (i+g) / d ).bang( 0.0f );
                     }
                 }
             end();

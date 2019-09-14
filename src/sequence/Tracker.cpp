@@ -43,19 +43,19 @@ np::sequence::Tracker::Tracker() {
             int read = index; // memorize the index from which we read, as index can be changed by another thread
             
             bars = length;
-            steplen = 1.0/double(division);
-            begin();
+            double d = division;
+            this->begin();
                 if( !values.empty() && bLoaded ){
                     for( int i=start; i<(int)values[read].size() && i<(steps+start); ++i ) {
                         for( size_t o=0; o<values[read][i].size() && i<(steps+start); ++o ) {
                             if( ( values[read][i][o].chance>=1.0f || pdsp::chance(values[read][i][o].chance))
                                  && values[read][i][o].value >= 0.0f ){
-                                message( (double) (i-start), values[read][i][o].value, o ); 
+                                this->out(o).delay((i-start)/d).bang( values[read][i][o].value );
                             } 
                         }                        
                     }
                 }
-            end();
+            this->end();
             
             regenerate = false;
         }
