@@ -6,7 +6,7 @@
 
 ofParameterGroup & np::synth::DataSynth::setup(int numVoices, float spread, std::string name ){
 
-    // -------------------------- PATCHING ------------------------------------
+    // -------------------------- PATCHING ---------------------------
     voices.resize( numVoices );
  
     for(int i=0; i<numVoices; ++i){
@@ -25,7 +25,7 @@ ofParameterGroup & np::synth::DataSynth::setup(int numVoices, float spread, std:
     
     cutoff_ctrl >> cutoff_p2f;
     
-    // CONTROLS ----------------------------------------------------------------
+    // CONTROLS ------------------------------------------------------
     parameters.setName( name );
 
     parameters.add(gain.set("gain", -9, -48, 12));
@@ -35,11 +35,11 @@ ofParameterGroup & np::synth::DataSynth::setup(int numVoices, float spread, std:
     parameters.add( env_attack_ctrl.set( "env attack", 50, 0, 4000) );
     parameters.add( env_decay_ctrl.set(  "env decay", 400, 5, 1200) );
     parameters.add( env_sustain_ctrl.set("env sustain", 1.0f, 0.0f, 1.0f) );
-    parameters.add( env_release_ctrl.set("env release", 900, 5, 5000));    
+    parameters.add( env_release_ctrl.set("env release", 900, 0, 5000));    
     parameters.add( drift.set("drift", 0.05f, 0.0f, 1.0f) );   
 
     gain.enableSmoothing(50.f);
-    // ------------------------------------------------------------------------
+    // ---------------------------------------------------------------
     
     return parameters;
 }

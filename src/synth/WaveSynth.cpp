@@ -6,7 +6,7 @@
 
 ofParameterGroup & np::synth::WaveSynth::setup( int numVoices, float spread, std::string name ){
     
-    // -------------------------- PATCHING ------------------------------------
+    // -------------------------- PATCHING ---------------------------
     voices.resize( numVoices );
  
     for(int i=0; i<numVoices; ++i){
@@ -23,7 +23,7 @@ ofParameterGroup & np::synth::WaveSynth::setup( int numVoices, float spread, std
         }
     }
 
-    // CONTROLS ---------------------------------------------------------------
+    // CONTROLS ------------------------------------------------------
     parameters.setName( name );
     parameters.add(table_ctrl.set("table index", 8.0f, 0.0f, (float)(wavetable.size()-1) ) );
     table_ctrl.enableSmoothing(200.0f);
@@ -34,10 +34,10 @@ ofParameterGroup & np::synth::WaveSynth::setup( int numVoices, float spread, std
  
     cutoff_ctrl.enableSmoothing(200.0f);
     
-    parameters.add(env_attack_ctrl.set( "env attack", 400, 5, 1200) );
+    parameters.add(env_attack_ctrl.set( "env attack", 400, 0, 1200) );
     parameters.add(env_decay_ctrl.set(  "env decay", 400, 5, 1200) );
     parameters.add(env_sustain_ctrl.set("env sustain", 1.0f, 0.0f, 1.0f) );
-    parameters.add(env_release_ctrl.set("env release", 900, 5, 2000));    
+    parameters.add(env_release_ctrl.set("env release", 900, 0, 2000));    
     parameters.add( env_table_ctrl.set( "env to table", 0.0f, 0.0f, 2.0f) );
     parameters.add( env_filter_ctrl.set("env to filter", 30, 0, 60) );    
     parameters.add( drift.set("drift", 0.0f, 0.0f, 1.0f) );    
