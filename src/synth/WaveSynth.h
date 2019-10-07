@@ -24,7 +24,7 @@ public:
         pdsp::Patchable& in_table();
         pdsp::Patchable& in_cutoff();
         
-        float meter_mod_env() const;
+        float meter_env() const;
         float meter_pitch() const;
 
     private:

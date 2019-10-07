@@ -91,7 +91,7 @@ void np::synth::WaveSynth::Voice::setup( WaveSynth & m ){
                                                   driftAmt >> oscillator.in_table();
 }
 
-float np::synth::WaveSynth::Voice::meter_mod_env() const{
+float np::synth::WaveSynth::Voice::meter_env() const{
     return envelope.meter_output();
 }
 
