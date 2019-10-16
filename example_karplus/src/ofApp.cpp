@@ -46,7 +46,7 @@ void ofApp::setup(){
     ofSetFrameRate(24);
     
 #ifdef OFAPP_KARPLUS_MIDI     
-    ofSetWindowShape(230, 350);
+    ofSetWindowShape(230, 370);
 #else
     ofSetWindowShape(230, 530);
 #endif 
