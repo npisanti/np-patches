@@ -12,6 +12,7 @@ void np::effect::StereoDelay::patch() {
     addModuleInput("1", channels[1] );
     addModuleOutput("0", channels[0] );
     addModuleOutput("1", channels[1] );
+    addModuleOutput("send", sendToReverb );
 
     channels[0].input >> inputFader.ch(0) >> delay0 >> outputFader.ch(0) >> channels[0].output;
     channels[1].input >> inputFader.ch(1) >> delay1 >> outputFader.ch(1) >> channels[1].output;
@@ -27,6 +28,9 @@ void np::effect::StereoDelay::patch() {
     rFeedbackControl >> delay1.in_feedback();
     dampingControl >> delay0.in_damping();
     dampingControl >> delay1.in_damping();
+    
+    delay0 >> sendToReverb;
+    delay1 >> sendToReverb;
 
     parameters.setName("stereo delay");
 
@@ -41,6 +45,7 @@ void np::effect::StereoDelay::patch() {
     parameters.add(speed.set("mod speed (hz)", 0.25f, 0.05f, 4.0f));
     parameters.add(modAmt.set("mod depth (ms)", 0.0f, 0.0f, 8.0f));
        
+    parameters.add( sendToReverb.set("send to reverb", -6, -48, 12) );
     parameters.add( outputFader.set("output gain", 0, -48, 12) );
 
     inputFader.enableSmoothing(50.f);

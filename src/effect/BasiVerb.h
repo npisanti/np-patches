@@ -24,10 +24,9 @@ public:
     
 private:    
     void patch();
-    
-    std::vector<pdsp::ChannelNode> channels;
         
     pdsp::BasiVerb 	    reverb;
+    pdsp::LowCut        lowcut;
     
     pdsp::ParameterGain	gain;
     pdsp::Parameter     timeControl;
@@ -36,6 +35,7 @@ private:
     pdsp::Parameter     hiCutControl;
     pdsp::Parameter     modFreqControl;
     pdsp::Parameter     modAmountControl;
+    pdsp::Parameter     lowCutControl;
     
 };
     

@@ -5,14 +5,15 @@
 #include "BasiVerb.h"
 
 void np::effect::BasiVerb::patch(){
-
-    channels.resize(2);
     
-    addModuleInput( "signal", channels[0] );
-    addModuleOutput( "signal", channels[0] );
+    addModuleInput( "signal", lowcut );
+    addModuleOutput( "signal", gain.ch(0) );
+    addModuleOutput( "0", gain.ch(0) );
+    addModuleOutput( "1", gain.ch(1));
 
-	channels[0].input >> reverb.ch(0) >> gain.ch(0) >> channels[0].output;
-	channels[1].input >> reverb.ch(1) >> gain.ch(1) >> channels[1].output;
+    lowcut >> reverb;
+	reverb.ch(0) >> gain.ch(0);
+    reverb.ch(1) >> gain.ch(1);
 	
 	timeControl 		>> reverb.in_time();
     densityControl 		>> reverb.in_density();
@@ -20,9 +21,11 @@ void np::effect::BasiVerb::patch(){
     hiCutControl 		>> reverb.in_hi_cut();
     modFreqControl 		>> reverb.in_mod_freq();
     modAmountControl 	>> reverb.in_mod_amount();
+    lowCutControl       >> lowcut.in_freq();
     
     parameters.setName( "reverb" );
     parameters.add( gain.set("reverb gain", -9, -48, 12 ) );
+    parameters.add( lowCutControl.set("low cut freq", 100, 20, 1000 ) );
     parameters.add( timeControl.set("rt60", 3.33f, 0.05f, 20.0f ) );
     parameters.add( densityControl.set("density", 0.5f, 0.0f, 1.0f ) );
     parameters.add( dampingControl.set("damping", 0.5f, 0.0f, 1.0f ) );
@@ -46,5 +49,8 @@ pdsp::Patchable & np::effect::BasiVerb::in_signal() {
 
 pdsp::Patchable & np::effect::BasiVerb::ch( size_t index ) {
     pdsp::wrapChannelIndex( index );
-    return channels[index];
+    switch( index ){
+        case 0: default: return out("0"); break;
+        case 1:          return out("1"); break;
+    }
 }

@@ -22,6 +22,9 @@ public:
     pdsp::Parameter         speed;
     pdsp::ParameterGain inputFader;
     pdsp::ParameterGain outputFader;
+    
+    pdsp::ParameterGain sendToReverb;
+    
 
     pdsp::Patchable & ch( size_t index );
 
