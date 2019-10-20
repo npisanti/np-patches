@@ -29,6 +29,13 @@ public:
 
     void draw( int x, int y, int w, int h );
 
+    pdsp::ParameterGain makeup;
+    pdsp::Parameter    attackControl;
+    pdsp::Parameter    releaseControl;
+    pdsp::Parameter    thresholdControl;
+    pdsp::Parameter    kneeControl;
+    pdsp::Parameter    clipThreshold;
+
 private:    
     struct Submodule : public pdsp::Patchable{
         Submodule();
@@ -45,13 +52,6 @@ private:
     Submodule submodule0;
     Submodule submodule1;
     
-    pdsp::ParameterGain makeup;
-    
-    pdsp::Parameter    attackControl;
-    pdsp::Parameter    releaseControl;
-    pdsp::Parameter    thresholdControl;
-    pdsp::Parameter    kneeControl;
-    pdsp::Parameter    clipThreshold;
     
     float threshold(){ return thresholdControl.getOFParameterInt(); }
     
