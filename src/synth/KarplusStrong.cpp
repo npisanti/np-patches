@@ -28,7 +28,6 @@ void np::synth::KarplusStrong::Voice::patch() {
     //patching
     gateEnv.set(0.0f, 0.0f, 1.0f, 20.0f);
     0.0f >> gateEnv.in_velocity();
-    gateEnv >> fbBoundaries;
     
     filterEnv.set(0.0f, 0.0f, 30.f);
     pluckEnv.set(0.0f, 0.0f, 30.f);
@@ -45,11 +44,17 @@ void np::synth::KarplusStrong::Voice::patch() {
                                         
 }
 
-void np::synth::KarplusStrong::setup ( int numVoices, float spread ) {
+void np::synth::KarplusStrong::Voice::connectFBGate() {
+    gateEnv >> fbBoundaries;
+}
+
+void np::synth::KarplusStrong::setup ( int numVoices, float spread, bool gatectrl ) {
     
     voices.resize( numVoices );
     
     for( size_t i=0; i<voices.size(); ++i ){
+        if( gatectrl ) voices[i].connectFBGate();
+        
         // connect each voice to chorus
         if( spread > 0.0f ){                    
             voices[i] * pdsp::panL( pdsp::spread(i, voices.size(), spread ) ) >> ampL;

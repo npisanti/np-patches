@@ -19,6 +19,7 @@ public:
     Voice(const Voice & other) { patch(); }
 
     void patch();
+    void connectFBGate();
     
     float meter_pluck() const { return pluckEnv.meter_output(); }
     
@@ -46,7 +47,7 @@ private:
     
 public: // ---------------------- public API ----------------------------------    
     
-    void setup ( int numVoices, float spread = 0.0f );
+    void setup ( int numVoices, float spread = 0.0f, bool gatectrl=true );
     
     pdsp::Patchable & in_trig( int voice );
     pdsp::Patchable & in_pitch( int voice );
