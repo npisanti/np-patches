@@ -88,7 +88,6 @@ void np::synth::WaveSynth::Voice::setup( WaveSynth & m ){
     phazorFree.out_trig() >> rnd >> randomSlew >> driftAmt;
                                                   driftAmt >> oscillator.in_pitch();
                                                   driftAmt * 7.0f >> filter.in_pitch();
-                                                  driftAmt >> oscillator.in_table();
 }
 
 float np::synth::WaveSynth::Voice::meter_env() const{
