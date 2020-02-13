@@ -10,6 +10,8 @@
 #include "effect/Chorus.h"
 #include "effect/StereoDelay.h"
 
+#include "TunedKeys.h"
+
 
 class ofApp : public ofBaseApp{
 
@@ -39,6 +41,8 @@ class ofApp : public ofBaseApp{
         pdsp::midi::Input        midiIn;
         pdsp::midi::Keys         midiKeys;
 
+        np::tuning::TunedKeys  keysTuning;
+
         np::synth::FM2 lead;
         np::effect::BasiVerb       reverb;
         
@@ -53,5 +57,6 @@ class ofApp : public ofBaseApp{
         pdsp::Parameter      attack;
         
         ofxPanel             gui;
+        ofxPanel             kui;
     
 };

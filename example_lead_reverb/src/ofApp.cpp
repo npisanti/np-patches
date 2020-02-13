@@ -19,8 +19,10 @@ void ofApp::setup(){
 
     midiKeys.setMonoMode(1, true);
 
+    keysTuning.setup( midiKeys );
+
     // activate portamento, in poly mode you can notice portamento only on note stealing
-    midiKeys.setPortamento(pdsp::On, 150.0f, pdsp::Rate);
+    midiKeys.setPortamento(pdsp::On, 25.0f, pdsp::Rate);
 
     midiKeys.outs_trig[0]  >> lead.voices[0].in("trig");
     midiKeys.outs_pitch[0] >> lead.voices[0].in("pitch");
@@ -62,6 +64,10 @@ void ofApp::setup(){
     gui.add( reverb.parameters );
     gui.add( delays.parameters );
     gui.loadFromFile("settings.xml");
+
+    kui.setup("tuning ui", "tuning.xml", 240, 20);
+    kui.add( keysTuning.parameters );
+    kui.loadFromFile("tuning.xml");
     
     // audio setup----------------------------
     // for our midi controllers to work we have to add them to the engine, so it know it has to process them
@@ -82,6 +88,7 @@ void ofApp::update(){
 //--------------------------------------------------------------
 void ofApp::draw(){
     gui.draw();
+    kui.draw();
 }
 
 //--------------------------------------------------------------
