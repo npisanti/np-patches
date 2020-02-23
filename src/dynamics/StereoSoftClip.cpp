@@ -14,7 +14,7 @@ void np::dynamics::StereoSoftClip::patch(){
     
     chan0.input >> inputGain.ch(0) >> upsampler0 >> clip0 >> downsampler0 >> outputGain.ch(0) >> chan0.output;
     
-    chan0.input >> inputGain.ch(1) >> upsampler1 >> clip1 >> downsampler1 >> outputGain.ch(1) >> chan1.output;
+    chan1.input >> inputGain.ch(1) >> upsampler1 >> clip1 >> downsampler1 >> outputGain.ch(1) >> chan1.output;
     
     clipThreshold >> clip0.in_threshold();
     clipThreshold >> clip1.in_threshold();
