@@ -21,10 +21,7 @@ public:
     
     ofParameterGroup parameters;
 
-
-
 private:    
-
 
     void patch();
 
@@ -33,10 +30,6 @@ private:
         
     pdsp::SoftClip clip0;
     pdsp::SoftClip clip1;
-    pdsp::IIRUpSampler2x upsampler0;
-    pdsp::IIRUpSampler2x upsampler1;
-    pdsp::IIRDownSampler2x downsampler0; 
-    pdsp::IIRDownSampler2x downsampler1; 
     
     pdsp::ParameterGain inputGain;
     pdsp::Parameter     clipThreshold;

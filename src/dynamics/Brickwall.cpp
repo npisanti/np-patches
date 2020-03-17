@@ -4,31 +4,17 @@
 
 #include "Brickwall.h"
 
-np::dynamics::Brickwall::Submodule::Submodule(){
-    addModuleInput("signal", input );
-    addModuleOutput( "signal", downsampler);
-    clip.setOversampleLevel(2);
-    upsampler >> clip >> downsampler;
-}
-
 void np::dynamics::Brickwall::patch(){
 
-    addModuleInput( "signal", submodule0 );
-    addModuleInput( "R", submodule1 );
-    addModuleOutput( "signal", submodule0 );
-    addModuleOutput( "R", submodule1 );
+    addModuleInput( "L", channel0 );
+    addModuleInput( "R", channel1 );
+    addModuleOutput( "L", channel0 );
+    addModuleOutput( "R", channel1 );
 
     comp.digital( true );
     
-    submodule0.input >> comp.ch(0);
-    submodule1.input >> comp.ch(1);
-    
-    comp.ch(0) >> makeup.ch(0); 
-    comp.ch(1) >> makeup.ch(1); 
-
-    makeup.ch(0) >> submodule0.upsampler;
-    makeup.ch(1) >> submodule1.upsampler;
-
+    channel0.input >> comp.ch(0)  >> makeup.ch(0) >> clip0 >> channel0.output;
+    channel1.input >> comp.ch(1)  >> makeup.ch(1) >> clip1 >> channel1.output;
 
     attackControl       >> comp.in_attack();
     releaseControl      >> comp.in_release();
@@ -36,8 +22,8 @@ void np::dynamics::Brickwall::patch(){
 
     45.0f               >> comp.in_ratio(); // limiter
 
-    clipThreshold >> submodule0.clip.in_threshold();
-    clipThreshold >> submodule1.clip.in_threshold();
+    clipThreshold >> clip0.in_threshold();
+    clipThreshold >> clip1.in_threshold();
     
     parameters.setName( "brickwall limiter" );
     
@@ -51,7 +37,7 @@ void np::dynamics::Brickwall::patch(){
 }
 
 void np::dynamics::Brickwall::enableScope( ofxPDSPEngine & engine ){   
-    submodule0.clip >> scope >> engine.blackhole();
+    clip0 >> scope >> engine.blackhole();
     scope.set(512*8); 
 }
     
@@ -105,8 +91,8 @@ float np::dynamics::Brickwall::meter_GR() const {
 pdsp::Patchable & np::dynamics::Brickwall::ch( size_t index ) {
     pdsp::wrapChannelIndex( index );
     switch( index ){
-        case 0: return submodule0; break;
-        case 1: return submodule1; break;
+        case 0: return channel0; break;
+        case 1: return channel1; break;
     }
-    return submodule0;
+    return channel0;
 }

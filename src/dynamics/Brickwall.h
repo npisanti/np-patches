@@ -37,21 +37,15 @@ public:
     pdsp::Parameter    clipThreshold;
 
 private:    
-    struct Submodule : public pdsp::Patchable{
-        Submodule();
-        pdsp::PatchNode input;
-        pdsp::SoftClip clip;
-        pdsp::IIRUpSampler2x upsampler;
-        pdsp::IIRDownSampler2x downsampler; 
-    };
-
+    pdsp::ChannelNode channel0;
+    pdsp::ChannelNode channel1;
+    
     void patch();
         
     pdsp::Compressor comp;
     
-    Submodule submodule0;
-    Submodule submodule1;
-    
+    pdsp::SoftClip clip0;
+    pdsp::SoftClip clip1;
     
     float threshold(){ return thresholdControl.getOFParameterInt(); }
     

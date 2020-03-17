@@ -6,15 +6,15 @@
 
 void np::dynamics::StereoSoftClip::patch(){
 
-    addModuleInput( "signal", inputGain );
-    addModuleOutput( "signal", outputGain );
+    addModuleInput( "signal", chan0 );
+    addModuleOutput( "signal", chan0 );
 
     clip0.setOversampleLevel(2);
     clip1.setOversampleLevel(2);
     
-    chan0.input >> inputGain.ch(0) >> upsampler0 >> clip0 >> downsampler0 >> outputGain.ch(0) >> chan0.output;
+    chan0.input >> inputGain.ch(0) >> clip0 >> outputGain.ch(0) >> chan0.output;
     
-    chan1.input >> inputGain.ch(1) >> upsampler1 >> clip1 >> downsampler1 >> outputGain.ch(1) >> chan1.output;
+    chan1.input >> inputGain.ch(1) >> clip1 >> outputGain.ch(1) >> chan1.output;
     
     clipThreshold >> clip0.in_threshold();
     clipThreshold >> clip1.in_threshold();
